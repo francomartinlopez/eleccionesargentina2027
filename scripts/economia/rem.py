@@ -23,28 +23,38 @@ def periodo(x):
         return pd.Period(f'{y}-{MESES[m.group(1)]:02d}', 'M')
     return None
 
-def bloque(df, clave):
-    """Filas mensuales (período, mediana) que siguen al título que contiene `clave`."""
-    col0 = [str(v).lower() for v in df.iloc[:, 0]]
-    ini = [i for i, v in enumerate(col0) if clave in v]
+def celdas(fila):
+    return [v for v in list(fila)[:3] if not (isinstance(v, float) and pd.isna(v)) and str(v).strip() not in ('', 'nan', 'NaT')]
+
+def bloque(df, clave, extra_ref=False, trimestral=False):
+    """Medianas del bloque cuyo título contiene `clave`: {período: valor}."""
+    ini = [i for i in range(len(df)) if any(clave in str(v).lower() for v in celdas(df.iloc[i]))]
     if not ini: return {}
-    i0 = ini[0]
-    # columna de la mediana: buscar 'mediana' en las filas cercanas
-    cm = None
-    for i in range(max(0, i0 - 3), min(len(df), i0 + 4)):
+    i0 = ini[0]; cm = None
+    for i in range(i0, min(len(df), i0 + 4)):
         for j, v in enumerate(df.iloc[i]):
-            if 'mediana' in str(v).lower(): cm = j; break
+            if str(v).strip().lower() == 'mediana': cm = j; hdr = i; break
         if cm is not None: break
     if cm is None: return {}
     out = {}
-    for i in range(i0 + 1, min(len(df), i0 + 40)):
-        p = periodo(df.iloc[i, 0]) or periodo(df.iloc[i, 1])
-        if p is None:
-            if out: break
+    for i in range(hdr + 1, min(len(df), hdr + 30)):
+        c = celdas(df.iloc[i])
+        if not c: break
+        p = periodo(c[0]); ref = str(c[1]) if len(c) > 1 else ''
+        if trimestral:
+            m = re.match(r'trim\.\s*(i{1,3}|iv)-(\d{2})', str(c[0]).strip().lower())
+            if m:
+                q = {'i': 1, 'ii': 2, 'iii': 3, 'iv': 4}[m.group(1)]; y = 2000 + int(m.group(2))
+                for k in range(3): out[str(pd.Period(f'{y}-{3*q-2+k:02d}', 'M'))] = round(float(df.iloc[i, cm]) / 3, 3)
             continue
+        if p is None and extra_ref:
+            m = re.search(r';\s*([a-z]{3})-(\d{2})', ref.lower())
+            if m and m.group(1) in MESES: p = pd.Period(f'{2000+int(m.group(2))}-{MESES[m.group(1)]:02d}', 'M')
+        if p is None: continue
+        if 'i.a.' in ref: continue
         try: out[str(p)] = round(float(df.iloc[i, cm]), 3)
         except Exception: pass
-    return out
+    return dict(sorted(out.items()))
 
 def main():
     html = requests.get(PAGINA, headers=UA, timeout=120).text
@@ -60,7 +70,7 @@ def main():
     if os.environ.get('REM_DEBUG'):
         print('Hojas:', x.sheet_names)
         with pd.option_context('display.width', 250, 'display.max_columns', 12): print(df.head(120).to_string(max_colwidth=40))
-    infl = bloque(df, 'precios minoristas'); dol = bloque(df, 'tipo de cambio'); act = bloque(df, 'pib')
+    infl = bloque(df, 'precios minoristas (ipc nivel general'); dol = bloque(df, 'tipo de cambio nominal', extra_ref=True); act = bloque(df, 'pib a precios constantes', trimestral=True)
     if len(infl) < 3 or len(dol) < 2:
         print('No se pudo leer el REM. Primeras filas de la hoja', x.sheet_names[0], ':')
         print(df.head(80).to_string()); sys.exit(1)
@@ -68,7 +78,7 @@ def main():
     rel = f'{m.group(1)}-{m.group(2)}' if m else None
     dest = RAIZ / 'datos/rem.json'; prev = json.loads(dest.read_text())
     out = dict(prev); out.update({'relevamiento': rel, 'fuente': u, 'inflacion': infl, 'dolar': dol})
-    if act: out['actividad_trimestral'] = act
+    if act: out['actividad'] = act
     dest.write_text(json.dumps(out, ensure_ascii=False, indent=1)); print('REM', rel, 'inflación', infl, 'dólar', dol)
 
 if __name__ == '__main__':
