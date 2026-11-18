@@ -121,5 +121,11 @@
    38,
    66
   ]
+ },
+ "continuidad": {
+  "paso": 1.0,
+  "gen": 1.0,
+  "bal": 0.5,
+  "nota": "Misma persona que busca un período seguido (Milei 2027), partido en su primer período. Mitad de la diferencia entre presidentes candidatos y sucesores en las presidenciales calibradas (unos 1,9 puntos); los gobernadores de 9 distritos sugieren hasta +4,7."
  }
 }

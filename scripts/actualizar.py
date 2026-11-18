@@ -45,6 +45,8 @@ def suma(icg_reg, tipo):
 
 def bloque(paso, gen, bal):
     R = P['rango']; r1 = lambda x: round(x, 1)
+    cont = P.get('continuidad', {})
+    paso += cont.get('paso', 0); gen += cont.get('gen', 0); bal += cont.get('bal', 0)
     return {'paso': [r1(paso), r1(paso + R['paso'][0]), r1(paso + R['paso'][1])],
             'gen': [r1(gen), r1(gen + R['gen'][0]), r1(gen + R['gen'][1])],
             'bal': [r1(bal), r1(bal + R['bal'][0]), r1(bal + R['bal'][1])],
@@ -89,7 +91,8 @@ def main(dta):
            'ratios': {r: round(float(v), 2) for r, v in ratio.items()}, 'meses_ratio': [seis[0], seis[-1]],
            'actual': act, 'proyectado': proy, 'proyectado_eco': proy_eco,
            'mapa2027': {'reg': {r: [U[r][1], round(U[r][2] * 20 * 1.96, 1), round(reg[r] * 20, 1),
-                                    round(valor(reg[r] * 20, 'P'), 1), round(valor(reg[r] * 20, 'P'), 1), None] for r in w},
+                                    round(valor(reg[r] * 20, 'P') + P.get('continuidad', {}).get('gen', 0), 1),
+                                    round(valor(reg[r] * 20, 'P') + P.get('continuidad', {}).get('gen', 0), 1), None] for r in w},
                         'nac': [act['gen'][0], act['gen'][0], None]},
            }
     destino = RAIZ / 'datos/actual.json'

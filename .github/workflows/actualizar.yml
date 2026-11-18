@@ -20,13 +20,15 @@ jobs:
       - name: Descargar microdatos de la Di Tella
         run: python scripts/descargar.py fuentes/icg.dta
       - name: Recalcular
-        run: python scripts/actualizar.py fuentes/icg.dta
+        run: |
+          python scripts/actualizar.py fuentes/icg.dta
+          python scripts/respaldo.py
       - name: Subir cambios
         run: |
-          if git diff --quiet -- datos; then echo "Sin cambios"; exit 0; fi
+          if git diff --quiet -- datos index.html; then echo "Sin cambios"; exit 0; fi
           MES=$(python -c "import json;print(json.load(open('datos/actual.json'))['mes'])")
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git add datos
+          git add datos index.html
           git commit -m "Datos: ICG de $MES"
           git push
