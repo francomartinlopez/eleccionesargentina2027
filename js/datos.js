@@ -27,6 +27,7 @@ function aplicar(A){
   var ar=document.getElementById('aRows'),a=A.actual;
   if(ar)ar.innerHTML='<tr><td colspan="3" style="text-align:left;border-bottom:none;padding-bottom:0;font-size:.9em;color:var(--ink2)"><strong>Con PASO</strong></td></tr><tr>'+celda(a.paso)+celda(a.gen,1)+celda(a.bal)+'</tr>'+'<tr><td colspan="3" style="text-align:left;border-bottom:none;padding-bottom:0;font-size:.9em;color:var(--ink2)"><strong>Sin PASO</strong></td></tr><tr>'+'<td class="g" style="text-align:center">—</td>'+celda(a.sin,1)+celda(a.bal)+'</tr>';
   if(window.proyDraw){window.PD=A.proyectado;if(A.proyectado_eco)window.PDE=A.proyectado_eco;window.proyDraw();}
+  if(window.compDraw)window.compDraw();
   if(window.regRD){window.regRD['2027 P (proy.)']=A.mapa2027;window.regDraw();}
   if(window.alActualizar)window.alActualizar(A);
 }
