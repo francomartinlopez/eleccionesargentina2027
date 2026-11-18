@@ -12,12 +12,12 @@ function lectura(A){var a=A.actual,g=a.gen[0],s=a.sin,b=a.bal,t='';
   t+=s[0]>=45?'Sin PASO, también ganaría en primera vuelta. ':s[0]>=40?'Sin PASO, ganaría en primera vuelta solo con más de 10 puntos de ventaja. ':'Sin PASO, el valor central no llega al 40 %, así que iría a balotaje'+(s[2]>=40?' salvo en el extremo alto del rango. ':'. ');
   t+=b[2]<50?'En los dos casos, un balotaje hoy lo perdería'+(b[0]>=46?' por poco':'')+': todo el rango queda debajo del 50 %.':b[1]>=50?'En los dos casos, un balotaje hoy lo ganaría: todo el rango supera el 50 %.':'En los dos casos, un balotaje hoy quedaría abierto: el rango cruza el 50 %.';
   return t;}
-function celda(v,big){return '<td class="g"><strong'+(big?' style="font-size:1.25em;color:var(--accent)"':'')+'>'+f(v[0])+' %</strong><br><small style="font-size:.72em">('+f(v[1])+'-'+f(v[2])+')</small></td>';}
+function celda(v,big){return '<td class="g"><strong style="line-height:1.25'+(big?';font-size:1.15em;color:var(--accent)':'')+'">'+f(v[1])+' –<br>'+f(v[2])+' %</strong></td>';}
 function aplicar(A){
   window.ACTUAL=A;
   document.querySelectorAll('[data-mes]').forEach(function(e){e.textContent=mesTxt(A.mes);});
   document.querySelectorAll('[data-v]').forEach(function(e){var v=get(A,e.dataset.v);if(v==null)return;
-    if(Array.isArray(v))e.textContent=e.hasAttribute('data-r')?f(v[1])+'-'+f(v[2]):f(v[0]);else e.textContent=f(v,+e.dataset.d||1);});
+    if(Array.isArray(v))e.textContent=e.hasAttribute('data-r')?f(v[1])+(e.closest('header')?' y ':'-')+f(v[2]):f(v[0]);else e.textContent=f(v,+e.dataset.d||1);});
   document.querySelectorAll('[data-ratios]').forEach(function(e){e.textContent=ratios(A.ratios);});
   document.querySelectorAll('[data-meses-ratio]').forEach(function(e){e.textContent=rangoMeses(A.meses_ratio[0],A.meses_ratio[1]);});
   document.querySelectorAll('[data-bal-verbo]').forEach(function(e){var b=A.actual.bal;e.textContent=b[0]<50?'que LLA perdería':'que LLA ganaría';});
