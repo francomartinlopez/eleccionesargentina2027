@@ -34,5 +34,19 @@ s = re.sub(r'var PD=\{.*?\};var PDE=', lambda m: 'var PD=' + json.dumps(A['proye
 s = re.sub(r'var PDE=\{.*?\};var st=', lambda m: 'var PDE=' + json.dumps(A['proyectado_eco'], separators=(',', ':')) + ';var st=', s, count=1, flags=re.S)
 s = re.sub(r'"2027 P \(proy\.\)":\{"reg":\{.*?\},"nac":\[[^\]]*\]\}', lambda m: '"2027 P (proy.)":' + json.dumps(A['mapa2027'], separators=(',', ':')).replace('NaN', 'null'), s, count=1, flags=re.S)
 s = re.sub(r'var ACT=\{.*?\};var COMP=', lambda m: 'var ACT=' + json.dumps(A['actual'], separators=(',', ':')) + ';var COMP=', s, count=1, flags=re.S)
+
+def lectura(a):
+    g, si, b = a['gen'], a['sin'], a['bal']
+    def pv(r, q):
+        if r[1] >= 45: return q + 'todo el rango supera el 45 %: el oficialismo ganaría en primera vuelta. '
+        if r[1] >= 40: return q + 'todo el rango supera el 40 %: el oficialismo ganaría en primera vuelta si le saca más de 10 puntos al segundo' + (', o sin condiciones en la parte alta, por encima del 45 %. ' if r[2] >= 45 else '. ')
+        if r[2] >= 40: return q + 'el rango cruza el 40 %: iría a balotaje salvo en la parte alta, y aun ahí necesitaría 10 puntos de ventaja. '
+        return q + 'todo el rango queda debajo del 40 %: iría a balotaje. '
+    t = pv(g, 'con PASO, ') + pv(si, 'Sin PASO, ')
+    if b[2] < 50: t += 'En los dos casos, un balotaje hoy lo perdería' + (' por poco' if b[2] >= 48 else '') + ': todo el rango queda debajo del 50 %.'
+    elif b[1] >= 50: t += 'En los dos casos, un balotaje hoy lo ganaría: todo el rango supera el 50 %.'
+    else: t += 'En los dos casos, un balotaje hoy quedaría abierto: el rango cruza el 50 %.'
+    return t
+s = re.sub(r'(<li id="aLectura"><strong>Lectura:</strong> )[^<]*(</li>)', lambda m: m.group(1) + lectura(A['actual']) + m.group(2), s, count=1)
 (RAIZ / 'index.html').write_text(s)
 print('respaldo actualizado')

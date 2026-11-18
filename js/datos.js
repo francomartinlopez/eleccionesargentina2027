@@ -7,10 +7,10 @@ function mesTxt(k){var p=k.split('-');return MES[+p[1]-1]+' de '+p[0];}
 function rangoMeses(a,b){var pa=a.split('-'),pb=b.split('-');return pa[0]==pb[0]?MES[+pa[1]-1]+' a '+mesTxt(b):mesTxt(a)+' a '+mesTxt(b);}
 function ratios(R){var g={};Object.keys(R).forEach(function(r){var k=f(R[r],2);(g[k]=g[k]||[]).push(r);});
   return Object.keys(g).sort(function(a,b){return parseFloat(a.replace(',','.'))-parseFloat(b.replace(',','.'));}).map(function(k){return g[k].join(' y ')+' '+k;}).join('; ');}
-function lectura(A){var a=A.actual,g=a.gen[0],s=a.sin,b=a.bal,t='';
-  t+=g>=45?'con PASO, el oficialismo ganaría en primera vuelta. ':g>=40?'con PASO, el oficialismo ganaría en primera vuelta solo si le saca más de 10 puntos al segundo. ':'con PASO, el oficialismo iría a balotaje. ';
-  t+=s[0]>=45?'Sin PASO, también ganaría en primera vuelta. ':s[0]>=40?'Sin PASO, ganaría en primera vuelta solo con más de 10 puntos de ventaja. ':'Sin PASO, el valor central no llega al 40 %, así que iría a balotaje'+(s[2]>=40?' salvo en el extremo alto del rango. ':'. ');
-  t+=b[2]<50?'En los dos casos, un balotaje hoy lo perdería'+(b[0]>=46?' por poco':'')+': todo el rango queda debajo del 50 %.':b[1]>=50?'En los dos casos, un balotaje hoy lo ganaría: todo el rango supera el 50 %.':'En los dos casos, un balotaje hoy quedaría abierto: el rango cruza el 50 %.';
+function lectura(A){var g=A.actual.gen,s=A.actual.sin,b=A.actual.bal,t='';
+  function pv(r,q){return r[1]>=45?q+'todo el rango supera el 45 %: el oficialismo ganaría en primera vuelta. ':r[1]>=40?q+'todo el rango supera el 40 %: el oficialismo ganaría en primera vuelta si le saca más de 10 puntos al segundo'+(r[2]>=45?', o sin condiciones en la parte alta, por encima del 45 %. ':'. '):r[2]>=40?q+'el rango cruza el 40 %: iría a balotaje salvo en la parte alta, y aun ahí necesitaría 10 puntos de ventaja. ':q+'todo el rango queda debajo del 40 %: iría a balotaje. ';}
+  t+=pv(g,'con PASO, ');t+=pv(s,'Sin PASO, ');
+  t+=b[2]<50?'En los dos casos, un balotaje hoy lo perdería'+(b[2]>=48?' por poco':'')+': todo el rango queda debajo del 50 %.':b[1]>=50?'En los dos casos, un balotaje hoy lo ganaría: todo el rango supera el 50 %.':'En los dos casos, un balotaje hoy quedaría abierto: el rango cruza el 50 %.';
   return t;}
 function celda(v,big){return '<td class="g" style="padding-left:4px;padding-right:2px"><strong style="white-space:nowrap'+(big?';color:var(--accent)':'')+'">'+f(v[1])+' %–'+f(v[2])+' %</strong></td>';}
 function aplicar(A){

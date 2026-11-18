@@ -26,8 +26,8 @@
 <header class="cab"><h1>Análisis Electoral Presidencial Argentina 2027</h1>
 <p style="margin:6px 0 0;color:var(--ink2);font-size:clamp(13px,1.7vw,16px);line-height:1.45">Dos análisis con metodologías distintas, que dan resultados distintos y conviene leer juntos:</p>
 <ul style="margin:6px 0 0;padding-left:20px;color:var(--ink2);font-size:clamp(13px,1.7vw,16px);line-height:1.45">
-<li><strong style="color:var(--ink)">Índice de Confianza en el Gobierno corregido:</strong> proyecta el voto del oficialismo a partir de la aprobación del gobierno, con su lectura por región. Da entre <span data-v="actual.gen" data-r>41,7-45,3</span> % en la general con PASO, entre <span data-v="actual.sin" data-r>36,3-43,1</span> % sin PASO y entre <span data-v="actual.bal" data-r>48,2-49,7</span> % en un balotaje, <span data-bal-verbo>que LLA perdería</span>.</li>
-<li><strong style="color:var(--ink)">Escenarios de coaliciones:</strong> 52 combinaciones de alianzas a partir de los votos de 2023 y 2025, con supuestos de reparto. En 38 hay balotaje, y con las transferencias de votos LLA ganaría 31 de esos 38.</li>
+<li><strong style="color:var(--ink)">Índice de Confianza en el Gobierno corregido:</strong> proyecta el voto del oficialismo a partir de la aprobación del gobierno, con su lectura por región. Da entre <span data-v="actual.gen" data-r>41,7 y 45,3</span> % en la general con PASO, entre <span data-v="actual.sin" data-r>36,3 y 43,1</span> % sin PASO y entre <span data-v="actual.bal" data-r>48,2 y 49,7</span> % en un balotaje, <span data-bal-verbo>que LLA perdería</span>.</li>
+<li><strong style="color:var(--ink)">Escenarios de coaliciones:</strong> 52 combinaciones de alianzas a partir de los votos de 2023 y 2025, con supuestos de reparto. En 38 hay balotaje, y con las transferencias de votos LLA ganaría 37 de esos 38.</li>
 </ul>
 <p style="margin:6px 0 0;color:var(--ink2);font-size:clamp(13px,1.7vw,16px);line-height:1.45">La diferencia principal está en el balotaje: el índice se calibró con oficialismos peronistas que perdieron contra el voto antiperonista, y no capta que contra el kirchnerismo ese voto favorecería a LLA.</p>
 </header>
@@ -43,10 +43,10 @@
 <ul style="margin:8px 0 0;padding-left:18px;font-size:13px">
 <li><strong>Método por instancia:</strong> PASO con la suma de regiones más la alineación de los gobernadores de cada región; general y balotaje con la suma de regiones. Todo calibrado con las elecciones presidenciales de 2011-2023.</li>
 <li><strong>Mínimo y máximo:</strong> el error más grande hacia cada lado que tuvo ese método en las presidenciales de 2011-2023, cada una predicha sin incluirla en la calibración. En la PASO fue de −3,2 a +1,7 puntos; en la general, de −1,4 a +2,2; en el balotaje, de −0,3 a +1,2, con solo dos casos, así que ese rango está subestimado.</li>
-<li><strong>General sin PASO:</strong> no hay presidenciales sin PASO desde 2009. Se toma un punto intermedio entre una PASO (<span data-v="actual.paso">36,3</span> %: primera votación, oferta fragmentada, sin reagrupamiento) y una general con PASO (<span data-v="actual.gen">43,1</span> %: el voto útil completa el reagrupamiento). Las encuestas y el voto útil hacen parte de ese trabajo, pero sin una elección previa ocurre solo a medias. El rango cubre los dos extremos.</li>
+<li><strong>General sin PASO:</strong> no hay presidenciales sin PASO desde 2009. Se toma un punto intermedio entre una PASO (<span data-v="actual.paso" data-r>33,1-38,0</span> %: primera votación, oferta fragmentada, sin reagrupamiento) y una general con PASO (<span data-v="actual.gen" data-r>41,7-45,3</span> %: el voto útil completa el reagrupamiento). Las encuestas y el voto útil hacen parte de ese trabajo, pero sin una elección previa ocurre solo a medias. El rango cubre los dos extremos.</li>
 <li><strong>Continuidad:</strong> se suma 1 punto a la PASO y a la general y medio punto al balotaje porque Milei buscaría un segundo período seguido. En las presidenciales calibradas, el presidente candidato superó al índice unos 1,9 puntos más que un sucesor; el índice ya promedia los dos casos, así que el ajuste es la mitad. En 83 elecciones a gobernador de 9 distritos (1987-2025), el mismo gobernador ganó 9,4 puntos más que un sucesor del mismo partido, pero ahí no se descuenta la popularidad, que en el índice ya está. Detalle en Metodología.</li>
 <li><strong>Supuestos:</strong> ICG de <span data-mes>octubre de 2026</span> en cada región; oficialismo no peronista; alineación actual de los gobernadores (la de 2025, en funciones hasta 2027); peso de cada región según los votos de 2025.</li>
-<li id="aLectura"><strong>Lectura:</strong> con PASO, el oficialismo ganaría en primera vuelta solo si le saca más de 10 puntos al segundo. Sin PASO, el valor central no llega al 40 %, así que iría a balotaje salvo en el extremo alto del rango. En los dos casos, un balotaje hoy lo perdería por poco: todo el rango queda debajo del 50 %.</li>
+<li id="aLectura"><strong>Lectura:</strong> con PASO, todo el rango supera el 40 %: el oficialismo ganaría en primera vuelta si le saca más de 10 puntos al segundo, o sin condiciones en la parte alta, por encima del 45 %. Sin PASO, el rango cruza el 40 %: iría a balotaje salvo en la parte alta, y aun ahí necesitaría 10 puntos de ventaja. En los dos casos, un balotaje hoy lo perdería por poco: todo el rango queda debajo del 50 %.</li>
 </ul>
 </div>
 <div id="p2027proy" style="margin:0 0 28px;padding:16px 16px 14px;border:2px solid var(--accent);border-radius:12px;background:var(--band)">
@@ -132,8 +132,8 @@
 <ul>
 <li>Desde 2009, 10 de 18 elecciones quedan a 1 punto o menos del resultado.</li>
 <li>Los peores errores (2003, 2005, 2007) coinciden con la muestra chica de 6 localidades.</li>
-<li><strong>2027:</strong> ver el cuadro "Presidencial 2027 según el último ICG" arriba del desplegable: con PASO, la general da <span data-v="actual.gen">43,1</span> % (<span data-v="actual.gen" data-r>41,7-45,3</span>); sin PASO, <span data-v="actual.sin">39,7</span> % (<span data-v="actual.sin" data-r>36,3-43,1</span>); el balotaje, <span data-v="actual.bal">48,5</span> % (<span data-v="actual.bal" data-r>48,2-49,7</span>).</li>
-<li><strong>Contraste con la Tabla A:</strong> el escenario 2027 B (sin PASO) da 39,0 % a LLA + PRO, muy cerca del <span data-v="actual.sin">39,7</span> % del índice para una general sin PASO. Con PASO, el índice da <span data-v="actual.gen">43,1</span> %: con más de 10 puntos de ventaja sobre el segundo, el oficialismo ganaría en primera vuelta.</li>
+<li><strong>2027:</strong> ver el cuadro "Presidencial 2027 según el último ICG" arriba del desplegable: con PASO, la general da <span data-v="actual.gen" data-r>41,7-45,3</span> %; sin PASO, <span data-v="actual.sin" data-r>36,3-43,1</span> %; el balotaje, <span data-v="actual.bal" data-r>48,2-49,7</span> %.</li>
+<li><strong>Contraste con la Tabla A:</strong> el escenario 2027 B (sin PASO) da 39,0 % a LLA + PRO, dentro del rango del índice para una general sin PASO (<span data-v="actual.sin" data-r>36,3-43,1</span> %). Con PASO, el índice da <span data-v="actual.gen" data-r>41,7-45,3</span> %: todo el rango supera el 40 %, así que con más de 10 puntos de ventaja sobre el segundo el oficialismo ganaría en primera vuelta.</li>
 </ul></div></details>
 
 </div>
@@ -200,7 +200,7 @@
 <h2>Proyección 2027 por región</h2>
 <ul>
 <li>ICG de <span data-mes>octubre de 2026</span> por región con la fórmula presidencial del ICG corregido, sin ajuste regional: es el método de las presidenciales (suma de regiones), porque el criterio por región no mejora ese tipo de elección y además necesitaría el calendario provincial de 2027.</li>
-<li>Ponderado por el peso de cada región en los votos afirmativos de 2025, da <strong><span data-v="actual.gen">43,1</span> %</strong> nacional, el mismo valor del gráfico del ICG corregido.</li>
+<li>Ponderado por el peso de cada región en los votos afirmativos de 2025, da <strong><span data-v="actual.gen">43,1</span> %</strong> nacional, el valor central del rango del ICG corregido (<span data-v="actual.gen" data-r>41,7-45,3</span> %). El mapa muestra el valor central de cada región.</li>
 <li>La Patagonia tiene solo <span data-v="mapa2027.reg.Patagonia.0" data-d="0">34</span> casos en <span data-mes>octubre de 2026</span>: su valor es muy inestable.</li>
 </ul>
 <h2>Método</h2>
