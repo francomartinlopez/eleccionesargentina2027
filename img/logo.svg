@@ -2,8 +2,10 @@
   <style>.c{stroke:#1f5e99}.f{fill:#c98a12}@media (prefers-color-scheme:dark){.c{stroke:#7fb2e5}.f{fill:#f0b648}}</style>
   <defs><clipPath id="r"><rect x="0" y="0" width="64" height="31.5"/></clipPath></defs>
   <circle class="c" cx="32" cy="32" r="29" stroke-width="3"/>
-  <path class="c" d="M15 55.3V36h34v19.3" stroke-width="2.8" stroke-linecap="butt"/>
-  <path class="c" d="M15 36l4.5-9h25l4.5 9" stroke-width="2.8"/>
-  <g clip-path="url(#r)"><rect class="f" x="26.5" y="13" width="11" height="23" rx="1" transform="rotate(18 32 31.5)"/></g>
-  <path class="c" d="M24.5 31.5h15" stroke-width="2.6"/>
+  <g transform="translate(32 32) scale(1.12) translate(-32 -32)">
+    <path class="c" d="M15 51.4V36h34v15.4" stroke-width="2.5" stroke-linecap="butt"/>
+    <path class="c" d="M15 36l4.5-9h25l4.5 9" stroke-width="2.5"/>
+    <g clip-path="url(#r)"><rect class="f" x="26.5" y="13" width="11" height="23" rx="1" transform="rotate(18 32 31.5)"/></g>
+    <path class="c" d="M24.5 31.5h15" stroke-width="2.3"/>
+  </g>
 </svg>
