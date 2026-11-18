@@ -92,3 +92,8 @@ main>section[style*="margin-top:44px"]{margin-top:64px!important;padding-top:28p
 header.cab ul{margin-top:10px!important}
 .marca{display:inline-flex;align-items:center;gap:8px}
 .marca img{display:block}
+
+#p2027 table,#p2027proy table{font-size:clamp(12.5px,2vw,18px)!important}
+#p2027 td:first-child,#p2027proy td:first-child{white-space:nowrap}
+#p2027 tbody td,#p2027proy tbody td{text-align:center}
+#p2027 th,#p2027proy th{text-align:center!important}

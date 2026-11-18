@@ -12,7 +12,7 @@ function lectura(A){var a=A.actual,g=a.gen[0],s=a.sin,b=a.bal,t='';
   t+=s[0]>=45?'Sin PASO, también ganaría en primera vuelta. ':s[0]>=40?'Sin PASO, ganaría en primera vuelta solo con más de 10 puntos de ventaja. ':'Sin PASO, el valor central no llega al 40 %, así que iría a balotaje'+(s[2]>=40?' salvo en el extremo alto del rango. ':'. ');
   t+=b[2]<50?'En los dos casos, un balotaje hoy lo perdería'+(b[0]>=46?' por poco':'')+': todo el rango queda debajo del 50 %.':b[1]>=50?'En los dos casos, un balotaje hoy lo ganaría: todo el rango supera el 50 %.':'En los dos casos, un balotaje hoy quedaría abierto: el rango cruza el 50 %.';
   return t;}
-function celda(v,big){return '<td class="g" style="padding-left:4px;padding-right:2px"><strong style="white-space:nowrap'+(big?';color:var(--accent)':'')+'">'+f(v[1])+'–'+f(v[2])+'</strong></td>';}
+function celda(v,big){return '<td class="g" style="padding-left:4px;padding-right:2px"><strong style="white-space:nowrap'+(big?';color:var(--accent)':'')+'">'+f(v[1])+' %–'+f(v[2])+' %</strong></td>';}
 function aplicar(A){
   window.ACTUAL=A;
   document.querySelectorAll('[data-mes]').forEach(function(e){e.textContent=mesTxt(A.mes);});
@@ -25,7 +25,7 @@ function aplicar(A){
   var al=document.getElementById('aLectura');if(al)al.innerHTML='<strong>Lectura:</strong> '+lec;
   var pl=document.getElementById('pLectura');if(pl)pl.textContent=lec.charAt(0).toUpperCase()+lec.slice(1);
   var ar=document.getElementById('aRows'),a=A.actual;
-  if(ar)ar.innerHTML='<tr><td><strong>Con PASO</strong></td>'+celda(a.paso)+celda(a.gen,1)+celda(a.bal)+'</tr><tr><td><strong>Sin PASO</strong></td><td class="g">—</td>'+celda(a.sin,1)+celda(a.bal)+'</tr>';
+  if(ar)ar.innerHTML='<tr><td colspan="3" style="text-align:left;border-bottom:none;padding-bottom:0;font-size:.9em;color:var(--ink2)"><strong>Con PASO</strong></td></tr><tr>'+celda(a.paso)+celda(a.gen,1)+celda(a.bal)+'</tr>'+'<tr><td colspan="3" style="text-align:left;border-bottom:none;padding-bottom:0;font-size:.9em;color:var(--ink2)"><strong>Sin PASO</strong></td></tr><tr>'+'<td class="g" style="text-align:center">—</td>'+celda(a.sin,1)+celda(a.bal)+'</tr>';
   if(window.proyDraw){window.PD=A.proyectado;if(A.proyectado_eco)window.PDE=A.proyectado_eco;window.proyDraw();}
   if(window.regRD){window.regRD['2027 P (proy.)']=A.mapa2027;window.regDraw();}
   if(window.alActualizar)window.alActualizar(A);
