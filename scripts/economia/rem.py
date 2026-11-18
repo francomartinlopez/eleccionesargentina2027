@@ -25,7 +25,7 @@ def periodo(x):
 
 def bloque(df, clave):
     """Filas mensuales (período, mediana) que siguen al título que contiene `clave`."""
-    col0 = df.iloc[:, 0].astype(str).str.lower()
+    col0 = [str(v).lower() for v in df.iloc[:, 0]]
     ini = [i for i, v in enumerate(col0) if clave in v]
     if not ini: return {}
     i0 = ini[0]
@@ -53,15 +53,19 @@ def main():
         print('Enlaces de la página:', *re.findall(r'href=["\']([^"\']+)["\']', html)[:200], sep='\n  ')
         sys.exit('No se encontró el Excel del REM en ' + PAGINA)
     print('Excel del REM:', links[:5])
-    u = links[0]; u = u if u.startswith('http') else 'https://www.bcra.gob.ar/' + u.lstrip('/').replace('../', '')
+    u = [l for l in links if 'tablas' in l.lower()][0] if any('tablas' in l.lower() for l in links) else links[0]; u = u if u.startswith('http') else 'https://www.bcra.gob.ar/' + u.lstrip('/').replace('../', '')
+    import os
     x = pd.ExcelFile(io.BytesIO(requests.get(u, headers=UA, timeout=180).content))
     df = pd.read_excel(x, sheet_name=0, header=None)
+    if os.environ.get('REM_DEBUG'):
+        print('Hojas:', x.sheet_names)
+        with pd.option_context('display.width', 250, 'display.max_columns', 12): print(df.head(120).to_string(max_colwidth=40))
     infl = bloque(df, 'precios minoristas'); dol = bloque(df, 'tipo de cambio'); act = bloque(df, 'pib')
     if len(infl) < 3 or len(dol) < 2:
         print('No se pudo leer el REM. Primeras filas de la hoja', x.sheet_names[0], ':')
         print(df.head(80).to_string()); sys.exit(1)
-    m = re.search(r'([a-z]{3})[a-z]*-(\d{4})\.xlsx', u.lower())
-    rel = f'{m.group(2)}-{MESES[m.group(1)]:02d}' if m and m.group(1) in MESES else None
+    m = re.search(r'(\d{4})-(\d{2})\.xlsx', u)
+    rel = f'{m.group(1)}-{m.group(2)}' if m else None
     dest = RAIZ / 'datos/rem.json'; prev = json.loads(dest.read_text())
     out = dict(prev); out.update({'relevamiento': rel, 'fuente': u, 'inflacion': infl, 'dolar': dol})
     if act: out['actividad_trimestral'] = act

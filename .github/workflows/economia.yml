@@ -19,6 +19,8 @@ jobs:
       - name: REM del BCRA
         continue-on-error: true
         run: python scripts/economia/rem.py
+        env:
+          REM_DEBUG: '1'
       - name: Recalcular el ajuste económico
         run: python scripts/economia/calcular.py
       - name: Subir cambios
