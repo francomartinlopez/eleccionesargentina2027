@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elecciones 2027: ¿cuánto votaría hoy el oficialismo?</title>
+<meta name="description" content="Lectura mensual de la presidencial argentina 2027 con el Índice de Confianza en el Gobierno de la Di Tella, y 52 escenarios de alianzas.">
+<meta property="og:title" content="Elecciones 2027: ¿cuánto votaría hoy el oficialismo?">
+<meta property="og:description" content="Lectura mensual de la presidencial argentina 2027 con el Índice de Confianza en el Gobierno de la Di Tella, y 52 escenarios de alianzas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5e99'/%3E%3Cpath d='M5 22 L11 15 L16 18 L22 9 L27 12' stroke='%23f0b648' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<nav class="nav" aria-label="Secciones"><div class="in"><a class="marca" href="index.html">Elecciones <span>2027</span></a><div class="menu"><a href="index.html" aria-current="page">Portada</a><a href="indice.html">El índice</a><a href="escenarios.html">Escenarios</a><a href="metodologia.html">Metodología</a></div></div></nav>
+<main>
+<section class="portada">
+<h1>¿Cuánto votaría hoy el oficialismo?</h1>
+<p class="lede">Una lectura mensual de la presidencial 2027 a partir de la confianza en el gobierno que mide la Universidad Di Tella, junto con 52 escenarios de alianzas para la primera vuelta y el balotaje.</p>
+<figure class="serie" style="margin:0"><svg id="serie" viewBox="0 0 1000 320" style="min-height:200px" role="img" aria-label="Índice de Confianza en el Gobierno mensual desde noviembre de 2001"></svg></figure>
+<p class="pie-serie">Índice de Confianza en el Gobierno, de 0 a 5, desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. Debajo de la línea punteada (1,95), el oficialismo conserva un piso de votos mayor que su aprobación.</p>
+<h2 class="titulo-lectura">Con el ICG de <span data-mes>octubre de 2026</span></h2>
+<div class="lectura">
+<div><div class="q">General, si hay PASO</div><div class="n"><span data-v="actual.gen">42,1</span> %</div><div class="r">rango <span data-v="actual.gen" data-r>40,7-44,3</span></div></div>
+<div><div class="q">General, sin PASO</div><div class="n"><span data-v="actual.sin">38,7</span> %</div><div class="r">rango <span data-v="actual.sin" data-r>35,3-42,1</span></div></div>
+<div><div class="q">Balotaje</div><div class="n"><span data-v="actual.bal">48,0</span> %</div><div class="r">rango <span data-v="actual.bal" data-r>47,7-49,2</span></div></div>
+</div>
+<p class="sub" id="pLectura">Con PASO, el oficialismo ganaría en primera vuelta solo si le saca más de 10 puntos al segundo. Sin PASO, el valor central no llega al 40 %, así que iría a balotaje salvo en el extremo alto del rango. En los dos casos, un balotaje hoy lo perdería por poco: todo el rango queda debajo del 50 %.</p>
+<div class="entradas">
+<a class="entrada" href="indice.html"><h2>El índice</h2><p>El ICG corregido y leído en las seis regiones de la encuesta, validado con las 18 elecciones desde 2009: error promedio de 1 punto. Incluye la proyección a la fecha de las elecciones y el mapa por región.</p><span class="ir">Ver el índice</span></a>
+<a class="entrada e2" href="escenarios.html"><h2>Escenarios de coaliciones</h2><p>52 combinaciones de alianzas a partir de los votos de 2023 y 2025. En 38 hay balotaje y, con las transferencias de votos, LLA ganaría 31 de esos 38.</p><span class="ir">Ver los escenarios</span></a>
+</div>
+<p class="aviso">Son dos análisis con metodologías distintas y dan resultados distintos. La diferencia principal está en el balotaje: el índice se calibró con oficialismos peronistas que perdieron contra el voto antiperonista, y no capta que contra el kirchnerismo ese voto favorecería a LLA. Los escenarios, en cambio, no dependen de la aprobación del gobierno.</p>
+</section>
+</main>
+<footer><div class="in">Análisis propio a partir del Índice de Confianza en el Gobierno de la Escuela de Gobierno de la Universidad Torcuato Di Tella (<a href="https://www.utdt.edu/icg">utdt.edu/icg</a>) y de resultados oficiales. Datos al ICG de <span data-mes>octubre de 2026</span>; se actualiza cuando la Di Tella publica un nuevo mes. <a href="metodologia.html">Cómo se calcula</a>.</div></footer>
+<script src="js/datos.js"></script>
+<script>
+fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(M){
+var svg=document.getElementById('serie'),NS='http://www.w3.org/2000/svg',W=Math.max(320,svg.parentNode.clientWidth),H=W<600?240:320,l=26,r=W<600?22:40,t=26,b=34;svg.setAttribute('viewBox','0 0 '+W+' '+H);
+var ks=Object.keys(M).sort(),t0=2001+10/12,t1=2027+9/12,ymax=4;
+function X(a,m){return l+(a+(m-1)/12-t0)/(t1-t0)*(W-l-r);}function Y(v){return t+(1-v/ymax)*(H-t-b);}
+function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;}
+for(var v=0;v<=ymax;v++){el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:'var(--line)'});el('text',{x:l-8,y:Y(v)+4,'text-anchor':'end','class':'eje'},v);}
+el('line',{x1:l,x2:W-r,y1:Y(1.95),y2:Y(1.95),'class':'ref'});
+[[2003,4,1],[2005,10],[2007,10,1],[2009,6],[2011,10,1],[2013,10],[2015,10,1],[2017,10],[2019,10,1],[2021,11],[2023,10,1],[2025,10]].forEach(function(e){var x=X(e[0],e[1]);el('line',{x1:x,x2:x,y1:t,y2:H-b,'class':'elec','stroke-dasharray':e[2]?'':'2 3'});if(e[2]&&(W>=600||e[0]%8==3))el('text',{x:x,y:H-b+18,'text-anchor':'middle','class':'eje'},e[0]);});
+var x27=X(2027,10);el('line',{x1:x27,x2:x27,y1:t,y2:H-b,stroke:'var(--sol)','stroke-width':1.5});el('text',{x:x27,y:H-b+18,'text-anchor':'middle','class':'eje',style:'fill:var(--sol);font-weight:600'},2027);
+var pts=ks.map(function(k){var p=k.split('-');return [X(+p[0],+p[1]),Y(M[k].nacional)];});
+var d='M'+pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join('L');
+el('path',{d:d+'L'+pts[pts.length-1][0].toFixed(1)+','+Y(0)+'L'+pts[0][0].toFixed(1)+','+Y(0)+'Z','class':'ar'});
+var ln=el('path',{d:d,'class':'ln'});
+var u=pts[pts.length-1],k=ks[ks.length-1],p=k.split('-');
+var MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+el('circle',{cx:u[0],cy:u[1],r:5,'class':'hoy'});
+var lab=el('text',{x:u[0]-8,y:u[1]-14,'text-anchor':'end','class':'et'},MS[+p[1]-1]+' '+p[0]+': '+M[k].nacional.toFixed(2).replace('.',','));
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var L=ln.getTotalLength();ln.style.strokeDasharray=L;ln.style.strokeDashoffset=L;ln.getBoundingClientRect();ln.style.transition='stroke-dashoffset 1.6s ease-out';ln.style.strokeDashoffset=0;}
+}).catch(function(){});
+</script>
+</body>
+</html>
