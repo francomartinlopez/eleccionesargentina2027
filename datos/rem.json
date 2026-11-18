@@ -1,0 +1,40 @@
+{
+ "nota": "Mediana del Relevamiento de Expectativas de Mercado (REM) del BCRA: inflación mensual (%), tipo de cambio nominal ($/US$, promedio mensual) y crecimiento mensual de la actividad (%). Los meses que faltan repiten el último valor (inflación, actividad) o siguen la inflación (dólar).",
+ "relevamiento": "2026-10",
+ "inflacion": {
+  "2026-11": 1.7,
+  "2026-12": 1.8,
+  "2027-01": 1.7,
+  "2027-02": 1.6,
+  "2027-03": 1.7,
+  "2027-04": 1.6,
+  "2027-05": 1.6,
+  "2027-06": 1.6,
+  "2027-07": 1.6,
+  "2027-08": 1.6,
+  "2027-09": 1.6,
+  "2027-10": 1.6
+ },
+ "dolar": {
+  "2026-11": 1558.5,
+  "2026-12": 1590,
+  "2027-01": 1619,
+  "2027-02": 1649,
+  "2027-03": 1677,
+  "2027-10": 1985
+ },
+ "actividad": {
+  "2026-11": 0.66,
+  "2026-12": 0.66,
+  "2027-01": 0.66,
+  "2027-02": 0.3,
+  "2027-03": 0.3,
+  "2027-04": 0.3,
+  "2027-05": 0.25,
+  "2027-06": 0.25,
+  "2027-07": 0.25,
+  "2027-08": 0.25,
+  "2027-09": 0.25,
+  "2027-10": 0.25
+ }
+}

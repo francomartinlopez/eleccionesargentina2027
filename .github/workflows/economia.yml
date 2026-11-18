@@ -1,0 +1,31 @@
+name: Actualizar series económicas
+on:
+  schedule:
+    - cron: '41 14 22 * *'   # día 22 de cada mes, 11:41 hora argentina
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  economia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r scripts/requirements.txt xlrd openpyxl
+      - name: Bajar series
+        run: python scripts/economia/fuentes.py
+      - name: REM del BCRA
+        continue-on-error: true
+        run: python scripts/economia/rem.py
+      - name: Recalcular el ajuste económico
+        run: python scripts/economia/calcular.py
+      - name: Subir cambios
+        run: |
+          if git diff --quiet -- datos; then echo "Sin cambios"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos
+          git commit -m "Series económicas: ajuste recalculado"
+          git push

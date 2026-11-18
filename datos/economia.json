@@ -2,6 +2,8 @@
  "actualizado": "2026-11-18",
  "coeficiente_icg_0_100": 6.92,
  "nota": "Ajuste del ICG regional (escala 0-5) por proyección económica, medido contra el cambio económico típico de los años de referencia.",
+ "datos_hasta": "2026-10",
+ "rem": "2026-10",
  "ajuste": {
   "pesimista_todos": {
    "AMBA": {
