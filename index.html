@@ -7,11 +7,11 @@
 <meta name="description" content="Voto del oficialismo en la presidencial argentina 2027 según el Índice de Confianza en el Gobierno de la Di Tella, y 52 escenarios de coaliciones.">
 <meta property="og:title" content="Análisis Electoral Presidencial Argentina 2027">
 <meta property="og:description" content="Voto del oficialismo en la presidencial argentina 2027 según el Índice de Confianza en el Gobierno de la Di Tella, y 52 escenarios de coaliciones.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5e99'/%3E%3Cpath d='M5 22 L11 15 L16 18 L22 9 L27 12' stroke='%23f0b648' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-<nav class="nav" aria-label="Secciones"><div class="in"><a class="marca" href="#">Elecciones <span>2027</span></a><div class="menu"><a href="#indice">El índice</a><a href="#escenarios">Escenarios</a><a href="#metodologia">Metodología</a></div></div></nav>
+<nav class="nav" aria-label="Secciones"><div class="in"><a class="marca" href="#"><img src="img/logo.svg" alt="" width="30" height="30">Elecciones <span>2027</span></a><div class="menu"><a href="#indice">El índice</a><a href="#escenarios">Escenarios</a><a href="#metodologia">Metodología</a></div></div></nav>
 <main>
 <header class="cab"><h1>Análisis Electoral Presidencial Argentina 2027</h1>
 <p style="margin:6px 0 0;color:var(--ink2);font-size:clamp(13px,1.7vw,16px);line-height:1.45">Dos análisis con metodologías distintas, que dan resultados distintos y conviene leer juntos:</p>
@@ -78,6 +78,9 @@
 <p style="margin:0">La legislativa de octubre de 2001 no entra: el ICG empezó a medirse en noviembre de 2001.</p>
 <p style="margin:12px 0 0">Las proyecciones para 2027 están en el recuadro del principio de la página.</p>
 </div>
+<h2 style="font-size:clamp(17px,2.2vw,21px);font-weight:600;margin:26px 0 4px">ICG mensual desde 2001</h2>
+<p class="sub" style="margin:0 0 6px">Índice de Confianza en el Gobierno de la Di Tella, de 0 a 5, desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. Debajo de la línea punteada (1,95), el oficialismo conserva un piso de votos mayor que su aprobación.</p>
+<figure class="serie" style="margin:0 0 6px"><svg id="serie" viewBox="0 0 1000 320" style="min-height:200px" role="img" aria-label="Índice de Confianza en el Gobierno mensual desde noviembre de 2001"></svg></figure>
 <details style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:18px"><summary style="cursor:pointer"><span style="font-size:clamp(17px,2.2vw,21px);font-weight:600">Valores por elección</span><br><span style="font-size:13px;color:var(--ink2)">ICG, ICG corregido, método usado, voto del oficialismo y error en cada una de las 21 elecciones.</span></summary>
 <div style="overflow-x:auto;margin-top:8px"><table style="table-layout:auto;min-width:560px;font-size:13px">
 <thead><tr class="sb"><th style="text-align:left">Elección</th><th class="g">ICG mes ant. (0-5)</th><th class="s">Escala 0-100</th><th class="s">ICG corregido</th><th class="s" style="text-align:left">Método</th><th class="g">Voto oficialismo</th><th class="s">Error</th></tr></thead>
@@ -892,6 +895,26 @@ ic.innerHTML='ICG nacional proyectado (0-5): julio '+d.icg.jul.toFixed(2).replac
 rows.innerHTML='<tr><td><strong>Con PASO</strong></td>'+cell(d.paso)+cell(d.gen,1)+cell(d.bal)+'</tr><tr><td><strong>Sin PASO</strong></td><td class="g">—</td>'+cell(d.sin,1)+cell(d.bal)+'</tr>';}
 [['pEco','eco'],['pRef','ref'],['pTra','tra']].forEach(function(p){document.querySelectorAll('#'+p[0]+' button').forEach(function(b){b.addEventListener('click',function(){st[p[1]]=b.dataset.v;draw();});});});
 window.proyDraw=draw;draw();})();
+</script><script>
+fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(M){
+var svg=document.getElementById('serie'),NS='http://www.w3.org/2000/svg',W=Math.max(320,svg.parentNode.clientWidth),H=W<600?240:320,l=26,r=W<600?22:40,t=26,b=34;svg.setAttribute('viewBox','0 0 '+W+' '+H);
+var ks=Object.keys(M).sort(),t0=2001+10/12,t1=2027+9/12,ymax=4;
+function X(a,m){return l+(a+(m-1)/12-t0)/(t1-t0)*(W-l-r);}function Y(v){return t+(1-v/ymax)*(H-t-b);}
+function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;}
+for(var v=0;v<=ymax;v++){el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:'var(--line)'});el('text',{x:l-8,y:Y(v)+4,'text-anchor':'end','class':'eje'},v);}
+el('line',{x1:l,x2:W-r,y1:Y(1.95),y2:Y(1.95),'class':'ref'});
+[[2003,4,1],[2005,10],[2007,10,1],[2009,6],[2011,10,1],[2013,10],[2015,10,1],[2017,10],[2019,10,1],[2021,11],[2023,10,1],[2025,10]].forEach(function(e){var x=X(e[0],e[1]);el('line',{x1:x,x2:x,y1:t,y2:H-b,'class':'elec','stroke-dasharray':e[2]?'':'2 3'});if(e[2]&&(W>=600||e[0]%8==3))el('text',{x:x,y:H-b+18,'text-anchor':'middle','class':'eje'},e[0]);});
+var x27=X(2027,10);el('line',{x1:x27,x2:x27,y1:t,y2:H-b,stroke:'var(--sol)','stroke-width':1.5});el('text',{x:x27,y:H-b+18,'text-anchor':'middle','class':'eje',style:'fill:var(--sol);font-weight:600'},2027);
+var pts=ks.map(function(k){var p=k.split('-');return [X(+p[0],+p[1]),Y(M[k].nacional)];});
+var d='M'+pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join('L');
+el('path',{d:d+'L'+pts[pts.length-1][0].toFixed(1)+','+Y(0)+'L'+pts[0][0].toFixed(1)+','+Y(0)+'Z','class':'ar'});
+var ln=el('path',{d:d,'class':'ln'});
+var u=pts[pts.length-1],k=ks[ks.length-1],p=k.split('-');
+var MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+el('circle',{cx:u[0],cy:u[1],r:5,'class':'hoy'});
+el('line',{x1:u[0],x2:u[0],y1:t-4,y2:u[1]-6,stroke:'var(--sol)','stroke-width':1});var lab=el('text',{x:u[0]+4,y:t-8,'text-anchor':'end','class':'et'},MS[+p[1]-1]+' '+p[0]+': '+M[k].nacional.toFixed(2).replace('.',','));
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var L=ln.getTotalLength();ln.style.strokeDasharray=L;ln.style.strokeDashoffset=L;ln.getBoundingClientRect();ln.style.transition='stroke-dashoffset 1.6s ease-out';ln.style.strokeDashoffset=0;}
+}).catch(function(){});
 </script>
 </body>
 </html>

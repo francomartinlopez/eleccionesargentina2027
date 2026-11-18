@@ -90,3 +90,5 @@ main>section:first-child{margin-top:0!important}
 h1[id]{scroll-margin-top:70px}
 main>section[style*="margin-top:44px"]{margin-top:64px!important;padding-top:28px;border-top:1px solid var(--line)}
 header.cab ul{margin-top:10px!important}
+.marca{display:inline-flex;align-items:center;gap:8px}
+.marca img{display:block}
