@@ -10,7 +10,8 @@ Sitio estático "Elecciones 2027" de Franco Martín López. Responder en españo
    - `index.html`, desplegable "Lecturas": el punto "Contraste con la Tabla A" (compara el 38,0 % del escenario 2027 B con la general sin PASO del índice).
    - `index.html`, bloque proyectado: notas de trayectorias y años de referencia.
    - `index.html`, encabezado: la nota de diferencias entre los dos análisis.
-4. No cambiar `datos/parametros.json` ni las tablas de escenarios salvo pedido expreso.
-5. Commit "Revisión: ICG de <mes>" y push a `main`.
+4. `datos/economia.json` tiene el ajuste por trayectoria económica (pesimista, central y optimista, por región y mes). `scripts/actualizar.py` lo aplica a cada ICG nuevo. El ajuste se recalcula aparte, cuando se actualizan las series económicas (salarios, jubilación, AUH, IPC regional, dólar, patentamientos, empleo, Índice Líder, gasto y REM); avisar a Franco si pasaron más de tres meses desde `actualizado`.
+5. No cambiar `datos/parametros.json` ni las tablas de escenarios salvo pedido expreso.
+6. Commit "Revisión: ICG de <mes>" y push a `main`.
 
 Si la acción de GitHub falló (no hay mes nuevo varios días después del fin de mes), avisar a Franco: desde la sesión de Claude no se puede descargar de utdt.edu.

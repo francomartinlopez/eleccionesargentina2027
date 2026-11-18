@@ -1,0 +1,199 @@
+{
+ "actualizado": "2026-11-18",
+ "coeficiente_icg_0_100": 6.92,
+ "nota": "Ajuste del ICG regional (escala 0-5) por trayectoria económica, medido contra el cambio económico típico de los años de referencia.",
+ "ajuste": {
+  "pesimista_todos": {
+   "AMBA": {
+    "jul": -0.1544,
+    "sep": -0.2818,
+    "oct": -0.3005
+   },
+   "Pampeana": {
+    "jul": -0.1662,
+    "sep": -0.2875,
+    "oct": -0.2983
+   },
+   "Cuyo": {
+    "jul": -0.1896,
+    "sep": -0.308,
+    "oct": -0.3118
+   },
+   "NOA": {
+    "jul": -0.1738,
+    "sep": -0.2963,
+    "oct": -0.3059
+   },
+   "NEA": {
+    "jul": -0.1813,
+    "sep": -0.3498,
+    "oct": -0.3724
+   },
+   "Patagonia": {
+    "jul": -0.1543,
+    "sep": -0.2684,
+    "oct": -0.2737
+   }
+  },
+  "pesimista_reeleccion": {
+   "AMBA": {
+    "jul": -0.2365,
+    "sep": -0.3482,
+    "oct": -0.355
+   },
+   "Pampeana": {
+    "jul": -0.2483,
+    "sep": -0.3538,
+    "oct": -0.3528
+   },
+   "Cuyo": {
+    "jul": -0.2717,
+    "sep": -0.3744,
+    "oct": -0.3663
+   },
+   "NOA": {
+    "jul": -0.2559,
+    "sep": -0.3626,
+    "oct": -0.3604
+   },
+   "NEA": {
+    "jul": -0.2634,
+    "sep": -0.4162,
+    "oct": -0.4269
+   },
+   "Patagonia": {
+    "jul": -0.2364,
+    "sep": -0.3347,
+    "oct": -0.3281
+   }
+  },
+  "central_todos": {
+   "AMBA": {
+    "jul": -0.0624,
+    "sep": 0.0133,
+    "oct": 0.0123
+   },
+   "Pampeana": {
+    "jul": -0.0455,
+    "sep": 0.0449,
+    "oct": 0.0309
+   },
+   "Cuyo": {
+    "jul": -0.0649,
+    "sep": 0.0187,
+    "oct": 0.0156
+   },
+   "NOA": {
+    "jul": -0.0319,
+    "sep": 0.0442,
+    "oct": 0.0194
+   },
+   "NEA": {
+    "jul": -0.0018,
+    "sep": 0.0713,
+    "oct": 0.0398
+   },
+   "Patagonia": {
+    "jul": -0.0385,
+    "sep": 0.0444,
+    "oct": 0.0313
+   }
+  },
+  "central_reeleccion": {
+   "AMBA": {
+    "jul": -0.1445,
+    "sep": -0.0531,
+    "oct": -0.0422
+   },
+   "Pampeana": {
+    "jul": -0.1276,
+    "sep": -0.0214,
+    "oct": -0.0236
+   },
+   "Cuyo": {
+    "jul": -0.147,
+    "sep": -0.0477,
+    "oct": -0.0389
+   },
+   "NOA": {
+    "jul": -0.114,
+    "sep": -0.0221,
+    "oct": -0.0351
+   },
+   "NEA": {
+    "jul": -0.0839,
+    "sep": 0.005,
+    "oct": -0.0147
+   },
+   "Patagonia": {
+    "jul": -0.1206,
+    "sep": -0.0219,
+    "oct": -0.0232
+   }
+  },
+  "optimista_todos": {
+   "AMBA": {
+    "jul": 0.0315,
+    "sep": 0.1023,
+    "oct": 0.0814
+   },
+   "Pampeana": {
+    "jul": 0.0491,
+    "sep": 0.0971,
+    "oct": 0.0886
+   },
+   "Cuyo": {
+    "jul": 0.0444,
+    "sep": 0.1087,
+    "oct": 0.0934
+   },
+   "NOA": {
+    "jul": 0.0296,
+    "sep": 0.1047,
+    "oct": 0.0832
+   },
+   "NEA": {
+    "jul": 0.0725,
+    "sep": 0.1023,
+    "oct": 0.0833
+   },
+   "Patagonia": {
+    "jul": -0.0105,
+    "sep": 0.1246,
+    "oct": 0.1121
+   }
+  },
+  "optimista_reeleccion": {
+   "AMBA": {
+    "jul": -0.0506,
+    "sep": 0.036,
+    "oct": 0.0269
+   },
+   "Pampeana": {
+    "jul": -0.033,
+    "sep": 0.0307,
+    "oct": 0.0342
+   },
+   "Cuyo": {
+    "jul": -0.0377,
+    "sep": 0.0423,
+    "oct": 0.0389
+   },
+   "NOA": {
+    "jul": -0.0525,
+    "sep": 0.0383,
+    "oct": 0.0288
+   },
+   "NEA": {
+    "jul": -0.0096,
+    "sep": 0.036,
+    "oct": 0.0288
+   },
+   "Patagonia": {
+    "jul": -0.0926,
+    "sep": 0.0582,
+    "oct": 0.0576
+   }
+  }
+ }
+}

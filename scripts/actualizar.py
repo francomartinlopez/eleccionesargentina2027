@@ -71,11 +71,23 @@ def main(dta):
             p = bloque(suma(rr('jul'), 'PASO'), suma(rr('sep'), 'P'), suma(rr('oct'), 'B'))
             p['icg'] = {m: round(v, 2) for m, v in icg.items()}
             proy[f'{ref}_{k}'] = p
+    eco = json.loads((RAIZ / 'datos/economia.json').read_text())['ajuste'] if (RAIZ / 'datos/economia.json').exists() else {}
+    proy_eco = {}
+    for esc in ('pesimista', 'central', 'optimista'):
+        for ref, R in P['ref'].items():
+            aj = eco.get(f'{esc}_{ref}')
+            if not aj: continue
+            for k in ('pes', 'cen', 'opt'):
+                icg = {m: base * traj(R[m], k) for m in R}
+                rr = lambda m: {r: max(0.05, icg[m] * ratio[r] + aj[r][m]) for r in w}
+                p = bloque(suma(rr('jul'), 'PASO'), suma(rr('sep'), 'P'), suma(rr('oct'), 'B'))
+                p['icg'] = {m: round(sum(w[r] * rr(m)[r] for r in w), 2) for m in R}
+                proy_eco[f'{esc}_{ref}_{k}'] = p
     y, m = ult.split('-')
     out = {'mes': ult, 'mes_texto': f'{MESES[int(m)-1]} de {y}', 'icg_nacional': round(base, 2),
            'icg_regiones': {r: round(reg[r], 2) for r in w}, 'casos': U['n'],
            'ratios': {r: round(float(v), 2) for r, v in ratio.items()}, 'meses_ratio': [seis[0], seis[-1]],
-           'actual': act, 'proyectado': proy,
+           'actual': act, 'proyectado': proy, 'proyectado_eco': proy_eco,
            'mapa2027': {'reg': {r: [U[r][1], round(U[r][2] * 20 * 1.96, 1), round(reg[r] * 20, 1),
                                     round(valor(reg[r] * 20, 'P'), 1), round(valor(reg[r] * 20, 'P'), 1), None] for r in w},
                         'nac': [act['gen'][0], act['gen'][0], None]},

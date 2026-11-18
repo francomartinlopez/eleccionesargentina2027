@@ -26,7 +26,7 @@ function aplicar(A){
   var pl=document.getElementById('pLectura');if(pl)pl.textContent=lec.charAt(0).toUpperCase()+lec.slice(1);
   var ar=document.getElementById('aRows'),a=A.actual;
   if(ar)ar.innerHTML='<tr><td><strong>Con PASO</strong></td>'+celda(a.paso)+celda(a.gen,1)+celda(a.bal)+'</tr><tr><td><strong>Sin PASO</strong></td><td class="g">—</td>'+celda(a.sin,1)+celda(a.bal)+'</tr>';
-  if(window.proyDraw){window.PD=A.proyectado;window.proyDraw();}
+  if(window.proyDraw){window.PD=A.proyectado;if(A.proyectado_eco)window.PDE=A.proyectado_eco;window.proyDraw();}
   if(window.regRD){window.regRD['2027 P (proy.)']=A.mapa2027;window.regDraw();}
   if(window.alActualizar)window.alActualizar(A);
 }
