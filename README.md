@@ -4,12 +4,9 @@ Análisis electoral de la presidencial argentina 2027: el Índice de Confianza e
 
 Sitio estático publicado en Netlify.
 
-## Páginas
+## Página
 
-- `index.html`: portada con la serie del ICG y la lectura del último mes.
-- `indice.html`: el ICG corregido, las proyecciones 2027 y el mapa por región.
-- `escenarios.html`: las tablas de escenarios A a L.
-- `metodologia.html`: cómo se calcula todo y las fuentes.
+Todo está en `index.html`, en una sola página con menú: el índice (bloques 2027, gráfico, mapa por región), los escenarios (tablas A a L) y la metodología.
 
 ## Actualización mensual
 
