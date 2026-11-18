@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linejoin="round" stroke-linecap="round">
-  <style>.c{stroke:#1f5e99}.f{fill:#c98a12;stroke:#f6f8fa}@media (prefers-color-scheme:dark){.c{stroke:#7fb2e5}.f{fill:#f0b648;stroke:#0f1720}}</style>
+  <style>.c{stroke:#1f5e99}.f{fill:#c98a12}@media (prefers-color-scheme:dark){.c{stroke:#7fb2e5}.f{fill:#f0b648}}</style>
   <circle class="c" cx="32" cy="32" r="29" stroke-width="3"/>
-  <path class="c" d="M19 35h26v14H19zM19 35l3-7h20l3 7" stroke-width="2.8"/>
-  <path class="c" d="M28.5 31.5h7" stroke-width="2.4"/>
-  <rect class="f" x="27" y="12" width="10" height="14" rx="1" transform="rotate(40 32 19)" stroke-width="2.4"/>
+  <path class="c" d="M15 55.3V36h34v19.3" stroke-width="2.8" stroke-linecap="butt"/>
+  <path class="c" d="M15 36l4.5-9h25l4.5 9" stroke-width="2.8"/>
+  <path class="c" d="M27.5 31.5h9" stroke-width="2.6"/>
+  <rect class="f" x="26.5" y="9" width="11" height="15" rx="1" transform="rotate(40 32 18)"/>
 </svg>
