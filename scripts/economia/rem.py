@@ -48,8 +48,11 @@ def bloque(df, clave):
 
 def main():
     html = requests.get(PAGINA, headers=UA, timeout=120).text
-    links = re.findall(r'href="([^"]*tablas?-relevamiento-expectativas-mercado[^"]*\.xlsx)"', html, re.I)
-    if not links: sys.exit('No se encontró el Excel del REM en ' + PAGINA)
+    links = [l for l in re.findall(r'href=["\']([^"\']+\.xlsx?)["\']', html, re.I) if re.search(r'relevamiento|expectativas|rem', l, re.I)]
+    if not links:
+        print('Enlaces de la página:', *re.findall(r'href=["\']([^"\']+)["\']', html)[:200], sep='\n  ')
+        sys.exit('No se encontró el Excel del REM en ' + PAGINA)
+    print('Excel del REM:', links[:5])
     u = links[0]; u = u if u.startswith('http') else 'https://www.bcra.gob.ar/' + u.lstrip('/').replace('../', '')
     x = pd.ExcelFile(io.BytesIO(requests.get(u, headers=UA, timeout=180).content))
     df = pd.read_excel(x, sheet_name=0, header=None)
