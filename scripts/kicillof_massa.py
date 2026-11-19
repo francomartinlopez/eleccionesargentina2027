@@ -19,7 +19,7 @@ Supuestos (acordados con Franco, salvo los marcados "propio"):
 - Kirchnerismo duro con el peronismo federal (Kicillof solo): el peronismo federal
   conserva su parte del peronismo unido (propio).
 - Balotaje: se recalcula con transferencias (las de las tablas para PRO, centro,
-  peronismo federal, CC e izquierda; kirchnerismo, Kicillof y kirchnerismo duro 0/80/20;
+  peronismo federal, CC e izquierda; kirchnerismo, Kicillof y kirchnerismo duro 5/40/55 como el kirchnerismo en las tablas;
   Massa 30/45/25, propio) y se suma la diferencia con la composición de partida.
   Igual para la PASO y la general: diferencia sobre la composición de partida.
 """
@@ -38,8 +38,8 @@ FUGA_PF_KIC = (0.35 / 0.60, 0.25 / 0.60)        # LLA, abstención
 FUGA_PRO = (0.75, 0.05, 0.20)                   # LLA, Kicillof, abstención
 # transferencias en el balotaje: (LLA, rival, abstención)
 TR = {'pro': (.75, .05, .20), 'ce': (.45, .20, .35), 'pf': (.35, .40, .25),
-      'cc': (.25, .30, .45), 'iz': (0, .35, .65), 'k': (0, .80, .20),
-      'kic': (0, .80, .20), 'kd': (0, .80, .20), 'mas': (.30, .45, .25)}
+      'cc': (.25, .30, .45), 'iz': (0, .35, .65), 'k': (.05, .40, .55),
+      'kic': (.05, .40, .55), 'kd': (.05, .40, .55), 'mas': (.30, .45, .25)}
 
 COMPS = {'Kirchnerismo': ['k'], 'Peronismo unido': ['k', 'pf'], 'Peronismo federal': ['pf'],
          'PRO': ['pro'], 'CC': ['cc'], 'Centro (UCR y gobernadores)': ['ce'], 'Izquierda': ['iz'],

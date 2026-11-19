@@ -71,5 +71,10 @@ for row in ix.iter_rows():
                        'calculadas sobre ellas), una por fila, con el voto de cada lista en la PASO y la general, el balotaje y el resultado. '
                        'Valores de las tablas, sin el ajuste del ICG.') % (format(len(C), ',').replace(',', '.'),
                        sum('km' in x and 'bid' not in x for x in C), sum('bid' in x for x in C))
+for hoja in wb:
+    for row in hoja.iter_rows():
+        for c in row:
+            if isinstance(c.value, str) and 'No entran en el recuento de los 52.' in c.value:
+                c.value = c.value.replace('No entran en el recuento de los 52.', 'No entran en el recuento de 170 casos: solo dan rango.')
 wb.save(X)
 print(len(filas), 'filas,', len(H), 'columnas')
