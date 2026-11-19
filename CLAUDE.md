@@ -11,6 +11,7 @@ Sitio estático "Elecciones 2027" de Franco Martín López. Responder en españo
    - `index.html`, bloque proyectado: notas de trayectorias y años de referencia.
    - `index.html`, encabezado: la nota de diferencias entre los dos análisis.
    - El tercer bloque (composición de fuerzas, `#p2027comp`) toma la base de `datos/actual.json` sola; sus diferencias por escenario (`var COMP`, 44 de las Tablas A a L y 80 de la Tabla M) son fijas y solo cambian si se rehacen las tablas de escenarios.
+   - Las tablas de escenarios (A a M) ya no están en la página: están en `datos/escenarios-2027.xlsx` (valores fijos, no se actualizan con el ICG). Si se rehacen los escenarios, regenerar el Excel.
 4. `datos/economia.json` tiene el ajuste por proyección económica (pesimista, central y optimista, por región y mes). Lo recalcula solo la acción "Actualizar series económicas" (día 22 de cada mes): baja las series (`scripts/economia/fuentes.py`), lee el REM del BCRA (`scripts/economia/rem.py` → `datos/rem.json`) y corre `scripts/economia/calcular.py`. Al día siguiente la acción diaria lo aplica al sitio. Si `actualizado` en `datos/economia.json` tiene más de dos meses, la acción está fallando: avisar a Franco.
 5. `datos/parametros.json` incluye el ajuste por continuidad del oficialismo (+1 PASO y general, +0,5 balotaje: Milei buscaría un segundo período seguido; base en `datos/base_gobernadores.csv`). No cambiar `datos/parametros.json` ni las tablas de escenarios salvo pedido expreso.
 6. Commit "Revisión: ICG de <mes>" y push a `main`.
