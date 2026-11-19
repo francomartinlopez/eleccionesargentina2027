@@ -55,5 +55,14 @@ if __name__ == '__main__':
     print('rival', Counter(fam(x['riv']) for x in bl), '| pierde contra', Counter(x['win'] for x in bl if x['win'] != 'LLA'))
     print('juntos sin balotaje', sum(x['prim'] for c, x in zip(R, X) if c['pro'] == 'lla'), 'de', sum(c['pro'] == 'lla' for c in R),
           '| separados', sum(x['prim'] for c, x in zip(R, X) if c['pro'] != 'lla'), 'de', sum(c['pro'] != 'lla' for c in R))
-    print('rango todas', len(C), ': LLA general', min(c['G']['ll'] for c in C), '-', max(c['G']['ll'] for c in C),
-          '| balotaje', round(min(55.4 + c['db'] for c in C), 1), '-', round(max(55.4 + c['db'] for c in C), 1))
+    T = [c for c in C if 'cr' not in c]
+    print('rango sin Cristina', len(T), ': LLA general', min(c['G']['ll'] for c in T), '-', max(c['G']['ll'] for c in T),
+          '| balotaje', round(min(55.4 + c['db'] for c in T), 1), '-', round(max(55.4 + c['db'] for c in T), 1))
+    # sensibilidad: Cristina candidata sobre las composiciones centrales (sin Tabla M)
+    for niv in ('leve', 'media', 'fuerte'):
+        S = [c for c in C if c.get('cr') == niv and c['t'] != 'M']
+        Y = [res(c) for c in S]
+        b = [y for y in Y if not y['prim']]
+        print('Cristina', niv, len(S), '| sin balotaje', sum(y['prim'] for y in Y), '| LLA primera', sum(y['first'] == 'LLA' for y in Y),
+              '| LLA gana balotaje', sum(y['win'] == 'LLA' for y in b), 'de', len(b),
+              '| bal LLA', round(min(y['bal'] for y in b), 1), '-', round(max(y['bal'] for y in b), 1))

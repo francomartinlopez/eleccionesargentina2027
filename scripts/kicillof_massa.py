@@ -213,7 +213,7 @@ def armar(base):
 
 if __name__ == '__main__':
     s, m, C = leer()
-    base = [c for c in C if 'km' not in c and 'bid' not in c]  # quita también las de Bullrich: correr después scripts/bullrich.py
+    base = [c for c in C if 'km' not in c and 'bid' not in c and 'cr' not in c]  # quita también las de Bullrich y Cristina: correr después cristina.py y bullrich.py
     nuevos = armar(base)
     print(len(base), 'de partida,', len(nuevos), 'nuevas')
     if '--solo-mostrar' in sys.argv:

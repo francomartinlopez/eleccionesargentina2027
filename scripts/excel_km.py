@@ -17,28 +17,29 @@ LAB = {'pro': {'lla': 'Con LLA', 'solo': 'Solo', 'centro': 'Con el centro', 'cc'
        'ce': {'no': 'No se presenta', 'solo': 'Solo', 'lla': 'Con LLA', 'pro': 'Con el PRO', 'cc': 'Con la CC', 'pf': 'Con el peronismo federal'},
        'cc': {'sola': 'Sola', 'no': 'No se presenta', 'pro': 'Con el PRO', 'centro': 'Con el centro'},
        'pf': {'solo': 'Solo', 'k': 'Con el kirchnerismo', 'lla': 'Con LLA', 'pro': 'Con el PRO', 'centro': 'Con el centro',
-              'kic': 'Con Kicillof', 'mas': 'Con Massa', 'no': 'No se presenta'},
-       'kic': {'k': 'Dentro del kirchnerismo', 'solo': 'Solo', 'pf': 'Con el peronismo federal'},
+              'kic': 'Con Kicillof', 'mas': 'Con Massa', 'cfk': 'Con Cristina', 'no': 'No se presenta'},
+       'kic': {'k': 'Dentro del kirchnerismo', 'solo': 'Solo', 'pf': 'Con el peronismo federal', 'cfk': 'Con Cristina'},
        'mas': {'k': 'Dentro del kirchnerismo', 'solo': 'Solo', 'pf': 'Con el peronismo federal', 'kic': 'Con Kicillof',
-               'kic_pf': 'Con Kicillof y el peronismo federal', 'pro': 'Con el PRO', 'pro_pf': 'Con el PRO y el peronismo federal'}}
+               'kic_pf': 'Con Kicillof y el peronismo federal', 'pro': 'Con el PRO', 'pro_pf': 'Con el PRO y el peronismo federal', 'cfk': 'Con Cristina'},
+       'cr': {'no': 'No es candidata', 'leve': 'Candidata, rechazo leve (sensibilidad)', 'media': 'Candidata, rechazo medio (sensibilidad)', 'fuerte': 'Candidata, rechazo fuerte (sensibilidad)'}}
 nombres = sorted({o[0] for c in C for o in c['O'] if o[0] != 'Izquierda'}) + ['Izquierda']
-H = ['Hoja', 'Escenario', 'PRO', 'Centro (UCR y gobernadores)', 'CC', 'Peronismo federal', 'Kicillof', 'Massa', 'Bullrich',
+H = ['Hoja', 'Escenario', 'PRO', 'Centro (UCR y gobernadores)', 'CC', 'Peronismo federal', 'Kicillof', 'Massa', 'Bullrich', 'Cristina Kirchner',
      'Frente oficialista', 'Oficialismo: PASO', 'Oficialismo: general', 'Oficialismo: balotaje', 'Rival en el balotaje', 'Resultado'] \
     + [n + ': general' for n in nombres] + [n + ': PASO' for n in nombres] \
     + ['Blanco (% padrón): general', 'Nulo (% padrón): general', 'Absentismo (% padrón): general']
 filas = []
 for c in C:
-    if 'km' not in c and 'bid' not in c:
+    if 'km' not in c and 'bid' not in c and 'cid' not in c:
         v = dict(viejo[('Tabla ' + c['t'], c['s'])])
-        v['Kicillof'] = LAB['kic']['k']; v['Massa'] = LAB['mas']['k']; v['Bullrich'] = 'En LLA'
+        v['Kicillof'] = LAB['kic']['k']; v['Massa'] = LAB['mas']['k']; v['Bullrich'] = 'En LLA'; v['Cristina Kirchner'] = LAB['cr']['no']
         filas.append(v); continue
     O = c['O']; g = c['G']['ll']; bal = round(55.4 + c['db'], 1)
     otros = sorted(O, key=lambda o: -o[2]); riv = next(o for o in O if o[3])
     if g >= 45 or (g >= 40 and g - otros[0][2] >= 10): res = 'Gana LLA en primera vuelta'
     elif g < otros[1][2]: res = 'Balotaje sin LLA: ' + otros[0][0] + ' y ' + otros[1][0]
     else: res = 'Balotaje: gana ' + ('LLA' if bal > 50 else riv[0])
-    ids = ' y '.join(x for x in (c.get('bid'), c.get('km')) if x)
-    v = {'Hoja': 'Bullrich' if 'bid' in c else 'Kicillof y Massa', 'Escenario': '%s (sobre Tabla %s, 2027 %s)' % (ids, c['t'], c['s']),
+    ids = ' y '.join(x for x in (c.get('bid'), c.get('km'), c.get('cid')) if x)
+    v = {'Hoja': 'Cristina (sensibilidad)' if 'cid' in c else 'Bullrich' if 'bid' in c else 'Kicillof y Massa', 'Cristina Kirchner': LAB['cr'][c.get('cr', 'no')], 'Escenario': '%s (sobre Tabla %s, 2027 %s)' % (ids, c['t'], c['s']),
          'Bullrich': 'Candidata del PRO' if c.get('bu') == 'pro' else 'En LLA',
          'PRO': LAB['pro'][c['pro']], 'Centro (UCR y gobernadores)': LAB['ce'][c['ce']], 'CC': LAB['cc'][c['cc']],
          'Peronismo federal': LAB['pf'][c['pf']], 'Kicillof': LAB['kic'][c.get('kic', 'k')], 'Massa': LAB['mas'][c.get('mas', 'k')],
@@ -53,7 +54,7 @@ st_h = copy.copy(ws.cell(1, 1)._style); st_t = copy.copy(ws.cell(2, 1)._style); 
 i = wb.sheetnames.index(ws.title); wb.remove(ws); ws = wb.create_sheet('Todas las combinaciones', i)
 for j, h in enumerate(H, 1):
     c = ws.cell(1, j, h); c._style = copy.copy(st_h)
-    ws.column_dimensions[openpyxl.utils.get_column_letter(j)].width = 18 if j <= 15 else 14
+    ws.column_dimensions[openpyxl.utils.get_column_letter(j)].width = 18 if j <= 16 else 14
 ws.row_dimensions[1].height = 60
 for r, v in enumerate(filas, 2):
     for j, h in enumerate(H, 1):
@@ -68,9 +69,9 @@ for row in ix.iter_rows():
         if isinstance(c.value, str) and 'composiciones del bloque' in c.value and c.value.startswith('Las '):
             c.value = ('Las %s composiciones del bloque "voto del oficialismo según cómo se agrupen las fuerzas" (44 de las Tablas A a L, '
                        'sin las inerciales, y 80 de la Tabla M, más %d variantes con Kicillof y Massa y %d con Bullrich candidata del PRO, '
-                       'calculadas sobre ellas), una por fila, con el voto de cada lista en la PASO y la general, el balotaje y el resultado. '
+                       'calculadas sobre ellas, y %d con Cristina Kirchner candidata, como sensibilidad), una por fila, con el voto de cada lista en la PASO y la general, el balotaje y el resultado. '
                        'Valores de las tablas, sin el ajuste del ICG.') % (format(len(C), ',').replace(',', '.'),
-                       sum('km' in x and 'bid' not in x for x in C), sum('bid' in x for x in C))
+                       sum('km' in x and 'bid' not in x for x in C), sum('bid' in x and 'cid' not in x for x in C), sum('cid' in x for x in C))
 for hoja in wb:
     for row in hoja.iter_rows():
         for c in row:

@@ -26,7 +26,7 @@ TR = {'pro': (.75, .05, .20), 'ce': (.45, .20, .35), 'pf': (.35, .40, .25),
       'kic': (.05, .40, .55), 'kd': (.05, .40, .55), 'mas': (.30, .45, .25)}
 PIEZA = {'PRO': 'pro', 'Kicillof': 'kic', 'K duro': 'kd', 'Massa': 'mas', 'peronismo federal': 'pf',
          'Peronismo federal': 'pf', 'centro': 'ce', 'Centro': 'ce', 'Centro (UCR y gobernadores)': 'ce',
-         'CC': 'cc', 'Kirchnerismo': 'k', 'Izquierda': 'iz'}
+         'CC': 'cc', 'Kirchnerismo': 'k', 'Izquierda': 'iz', 'Cristina': 'k'}
 
 
 def comp(n):
