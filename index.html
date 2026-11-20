@@ -78,6 +78,81 @@
 <li><strong>Proyección económica:</strong> ajusta el ICG de cada región según cómo evolucionen hasta cada fecha diez variables (salario real RIPTE, salario registrado de la región, jubilación, AUH, inflación, dólar, patentamientos, empleo, Índice Líder y gasto público), comparadas contra el cambio típico de los años de referencia. Economía pesimista, central y optimista repiten los desvíos económicos de las elecciones 2005-2025 (percentiles 10, 50 y 90). Las series y el REM del BCRA se actualizan solos cada mes. <a href="#met-economia" data-abrir="met-economia">Detalle en Metodología</a>.</li>
 </ul>
 </div>
+<div id="p2027graf" style="margin:0 0 28px;padding:16px 16px 14px;border:1px solid var(--strong);border-radius:12px;background:var(--card)">
+<style>
+#p2027graf{--g1:#2a78d6;--g2:#eb6834;--g3:#1baf7a;--g4:#eda100;--g5:#e87ba4}
+@media (prefers-color-scheme:dark){#p2027graf{--g1:#3987e5;--g2:#d95926;--g3:#199e70;--g4:#c98500;--g5:#d55181}}
+#p2027graf .tg{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13.5px;min-height:36px;padding:6px 10px;margin:3px 4px 3px 0;border:1px solid var(--strong);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+#p2027graf .tg[aria-pressed=false]{color:var(--muted);text-decoration:line-through;border-style:dashed}
+#p2027graf .tg i{display:inline-block;width:18px;height:0;border-top:3px solid currentColor}
+#p2027graf .tg[aria-pressed=false] i{opacity:.35}
+#p2027graf .gr{font-size:13px;font-weight:600;color:var(--ink);margin:8px 0 0}
+#gTabla td,#gTabla th{white-space:nowrap;padding:6px 6px}
+#gTabla td:first-child{white-space:normal;min-width:150px}
+#p2027graf .graf>div{min-width:0}
+</style>
+<div style="font-size:clamp(19px,2.6vw,24px);font-weight:600;color:var(--ink);line-height:1.25">ICG proyectado, mes a mes del mandato</div>
+<div style="font-size:14px;color:var(--ink2);margin:4px 0 0;line-height:1.45">El ICG de la Di Tella en escala 0 a 100 (por 20) desde el comienzo de cada gobierno, alineado con el calendario electoral: el mes 44 es agosto del año de la elección. Desde el último dato de Milei (<span data-mes>octubre de 2026</span>), las tres trayectorias proyectadas hasta las elecciones de 2027, con un punto sobre cada elección. Toque cada gobierno o proyección para mostrarla u ocultarla.</div>
+<div class="gr">Gobiernos</div>
+<div id="gGob" role="group" aria-label="Gobiernos"></div>
+<div class="gr">Proyección del ICG de Milei</div>
+<div id="gTra" role="group" aria-label="Trayectorias proyectadas"></div>
+<div class="gr">Proyección económica</div>
+<div class="pgrp" id="gEco" role="group" aria-label="Proyección económica" style="display:inline-flex;flex-wrap:wrap;border:1px solid var(--strong);border-radius:8px;overflow:hidden;margin:4px 6px 4px 0"><button data-v="sin" style="font:inherit;font-size:13px;padding:6px 10px;border:none;cursor:pointer;flex:1 1 auto">Sin proyección económica</button><button data-v="pesimista" style="font:inherit;font-size:13px;padding:6px 10px;border:none;cursor:pointer;flex:1 1 auto">Economía pesimista</button><button data-v="central" style="font:inherit;font-size:13px;padding:6px 10px;border:none;cursor:pointer;flex:1 1 auto">Central</button><button data-v="optimista" style="font:inherit;font-size:13px;padding:6px 10px;border:none;cursor:pointer;flex:1 1 auto">Optimista</button></div>
+<div class="graf" tabindex="0" role="region" aria-label="Gráfico del ICG por mes de mandato (se desplaza de costado)" style="margin-top:8px"><div style="position:relative;width:100%;height:clamp(340px,52vw,480px)"><canvas id="gIcg" role="img" aria-label="ICG en escala 0 a 100 por mes de mandato de Kirchner, Cristina Kirchner (segundo mandato), Macri, Fernández y Milei, con la proyección de Milei hasta 2027. Los valores están en la tabla de abajo.">Gráfico del ICG por mes de mandato. Los valores están en la tabla de abajo.</canvas></div></div>
+<div style="font-size:13px;font-weight:600;color:var(--ink);margin:10px 0 2px">ICG que cuenta en cada elección (mes anterior), escala 0 a 100</div>
+<div tabindex="0" role="region" aria-label="Tabla (se desplaza de costado)" style="overflow-x:auto"><table id="gTabla" style="table-layout:auto;font-size:13.5px"><thead><tr><th style="text-align:left">Serie</th><th>PASO<br><span style="font-weight:400;color:var(--muted)">jul</span></th><th>General<br><span style="font-weight:400;color:var(--muted)">sep</span></th><th>Balotaje<br><span style="font-weight:400;color:var(--muted)">oct</span></th></tr></thead><tbody></tbody></table></div>
+<div style="font-size:13px;color:var(--ink2);margin:6px 0 0;line-height:1.45">Las proyecciones son las del bloque de arriba: el último ICG multiplicado por cómo cambió el índice, hasta cada elección, en los años de referencia (pesimista, la peor; central, la mediana; optimista, la mejor), con o sin el ajuste por la proyección económica. Solo se calculan los tres meses que cuentan, y cada punto proyectado se dibuja sobre la línea de su elección: el de las PASO es el ICG de julio, el de la general el de septiembre y el del balotaje el de octubre. Entre ellos, la línea es una recta. Los otros gobiernos muestran el ICG real de esos mismos meses de su último año. Kirchner asumió en mayo de 2003: sus primeros meses quedan a la izquierda del 0.</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+var MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+var GOB=[{k:'mil',n:'Milei',a:2023,i:'2023-12',f:'2027-11',c:'--g1'},{k:'nk',n:'Néstor Kirchner',a:2003,i:'2003-06',f:'2007-11',c:'--g2'},{k:'cfk',n:'Cristina Kirchner (2.º mandato)',a:2011,i:'2011-12',f:'2015-11',c:'--g3'},{k:'mac',n:'Macri',a:2015,i:'2015-12',f:'2019-11',c:'--g4'},{k:'af',n:'Alberto Fernández',a:2019,i:'2019-12',f:'2023-11',c:'--g5'}];
+var TRA=[{k:'opt',n:'Optimista',d:[2,4]},{k:'cen',n:'Central',d:[7,4]},{k:'pes',n:'Pesimista',d:[2,5,8,5]}];
+var st={gob:{mil:1,nk:1,cfk:1,mac:1,af:1},tra:{opt:1,cen:1,pes:1},eco:'sin'},M,A,ch;
+function css(v){return getComputedStyle(document.getElementById('p2027graf')).getPropertyValue(v).trim();}
+function x(k,a){var p=k.split('-');return (+p[0]-a)*12+(+p[1]-12);}
+function f(v){return v.toFixed(1).replace('.',',');}
+function mesTxt(k){var p=k.split('-');return MS[+p[1]-1]+' '+p[0];}
+function tg(id,L,on){document.getElementById(id).innerHTML=L.map(function(g){return '<button type="button" class="tg" data-k="'+g.k+'" aria-pressed="'+(!!on[g.k])+'" style="color:'+(on[g.k]?'var(--ink)':'')+'"><i style="color:var('+(g.c||'--g1')+');'+(g.d?'border-top-style:dashed':'')+'"></i>'+g.n+'</button>';}).join('');}
+function proy(t){var d=st.eco=='sin'?A.proyectado['todos_'+t]:A.proyectado_eco[st.eco+'_todos_'+t];return d?d.icg:null;}
+function series(){var ds=[];
+ GOB.forEach(function(g){if(!st.gob[g.k])return;var pts=Object.keys(M).sort().filter(function(k){return k>=g.i&&k<=g.f;}).map(function(k){return {x:x(k,g.a),y:M[k].nacional*20,m:mesTxt(k)};});
+  ds.push({label:g.n,data:pts,borderColor:css(g.c),backgroundColor:css(g.c),borderWidth:g.k=='mil'?3:2,pointRadius:0,pointHoverRadius:5,tension:0.15,order:g.k=='mil'?0:1});});
+ if(st.gob.mil){var ks=Object.keys(M).sort(),u=ks[ks.length-1],y0=+u.split('-')[0];
+  TRA.forEach(function(t){if(!st.tra[t.k])return;var p=proy(t.k);if(!p)return;
+   ds.push({label:'Milei, proyección '+t.n.toLowerCase(),tra:t.n,data:[{x:x(u,2023),y:M[u].nacional*20,m:mesTxt(u)},{x:44.25,y:p.jul*20,m:'ICG de julio de 2027',e:'PASO'},{x:46.8,y:p.sep*20,m:'ICG de septiembre de 2027',e:'general'},{x:47.7,y:p.oct*20,m:'ICG de octubre de 2027',e:'balotaje'}],borderColor:css('--g1'),backgroundColor:css('--g1'),borderDash:t.d,borderWidth:2,pointRadius:[0,4,4,4],pointHoverRadius:6,pointBackgroundColor:css('--card')||'#fff',tension:0,order:0});});}
+ return ds;}
+var ELEC=[{x:44.25,t:'PASO'},{x:46.8,t:'General'},{x:47.7,t:'Balotaje'}];
+var lineas={id:'elec',afterDatasetsDraw:function(c){var a=c.chartArea,ctx=c.ctx,xs=c.scales.x;ctx.save();ctx.font='600 11px "IBM Plex Sans",sans-serif';ctx.fillStyle=css('--ink2');ctx.strokeStyle=css('--strong');ctx.setLineDash([3,3]);ctx.lineWidth=1;
+ ELEC.forEach(function(e,i){var px=xs.getPixelForValue(e.x);ctx.beginPath();ctx.moveTo(px,a.top+14+i*12);ctx.lineTo(px,a.bottom);ctx.stroke();ctx.textAlign='right';ctx.fillText(e.t,px-3,a.top+10+i*12);});
+ var fm=xs.getPixelForValue(48.3);ctx.setLineDash([]);ctx.strokeStyle=css('--ink2');ctx.beginPath();ctx.moveTo(fm,a.top);ctx.lineTo(fm,a.bottom);ctx.stroke();
+ /* rótulos directos al final de cada proyección */
+ ctx.textAlign='left';ctx.font=(innerWidth<600?'11px':'12px')+' "IBM Plex Sans",sans-serif';var usados=[];
+ c.data.datasets.forEach(function(d,i){if(!d.tra||!c.isDatasetVisible(i))return;var p=d.data[3],py=c.scales.y.getPixelForValue(p.y);usados.forEach(function(u){if(Math.abs(u-py)<13)py=u+13;});usados.push(py);ctx.fillStyle=css('--ink');ctx.fillText(d.tra+' '+f(p.y),xs.getPixelForValue(48.3)+5,py+4);});
+ ctx.restore();}};
+function tabla(){var b=document.querySelector('#gTabla tbody'),h='';
+ if(st.gob.mil)TRA.forEach(function(t){if(!st.tra[t.k])return;var p=proy(t.k);if(!p)return;h+='<tr><td style="text-align:left">Milei, '+t.n.toLowerCase()+(st.eco!='sin'?' (economía '+st.eco+')':'')+'</td><td>'+f(p.jul*20)+'</td><td>'+f(p.sep*20)+'</td><td>'+f(p.oct*20)+'</td></tr>';});
+ GOB.forEach(function(g){if(g.k=='mil'||!st.gob[g.k])return;var y=g.a+4,v=['07','09','10'].map(function(m){var r=M[y+'-'+m];return r?f(r.nacional*20):'—';});h+='<tr><td style="text-align:left">'+g.n+' ('+y+')</td><td>'+v[0]+'</td><td>'+v[1]+'</td><td>'+v[2]+'</td></tr>';});
+ b.innerHTML=h||'<tr><td colspan="4" style="text-align:left">Elija al menos una serie.</td></tr>';}
+function dibujar(){tg('gGob',GOB,st.gob);tg('gTra',TRA.map(function(t){return {k:t.k,n:t.n,c:'--g1',d:t.d};}),st.tra);
+ document.querySelectorAll('#gEco button').forEach(function(b){var on=b.dataset.v==st.eco;b.style.background=on?'var(--accent)':'transparent';b.style.color=on?'var(--bg)':'var(--ink)';b.setAttribute('aria-pressed',on);});
+ document.querySelectorAll('#gTra .tg').forEach(function(b){b.disabled=!st.gob.mil;b.title=st.gob.mil?'':'Muestre a Milei para ver la proyección';});
+ tabla();
+ if(!window.Chart)return;var ds=series();
+ if(ch){ch.data.datasets=ds;ch.update('none');return;}
+ var grid=css('--line'),tx=css('--ink2');
+ ch=new Chart(document.getElementById('gIcg'),{type:'line',data:{datasets:ds},plugins:[lineas],options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,interaction:{mode:'x',intersect:false},
+  layout:{padding:{right:innerWidth<600?74:92,top:4}},
+  scales:{x:{type:'linear',min:-7,max:49,grid:{color:grid},ticks:{color:tx,stepSize:12,callback:function(v){return v%12==0&&v>=0?'dic '+(23+v/12):'';}},title:{display:true,text:innerWidth<600?'Mandato (fechas de Milei)':'Mandato, con las fechas de Milei (meses desde diciembre del año de asunción)',color:tx,font:{size:12}}},
+   y:{min:0,max:80,grid:{color:grid},ticks:{color:tx,stepSize:20},title:{display:true,text:'ICG, escala 0 a 100',color:tx,font:{size:12}}}},
+  plugins:{legend:{display:false},tooltip:{filter:function(i){return true;},callbacks:{title:function(it){var p=it[0].raw;if(p.e)return p.e=='PASO'?'PASO, 8 de agosto de 2027':p.e=='general'?'General, 24 de octubre de 2027':'Balotaje, 21 de noviembre de 2027';return 'Mes '+it[0].parsed.x+' del mandato';},label:function(it){var p=it.raw;return ' '+it.dataset.label+': '+f(p.y)+' ('+p.m+(p.e?', el que cuenta':'')+')';}}}}}});}
+function evento(id,obj){document.getElementById(id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;obj[b.dataset.k]=obj[b.dataset.k]?0:1;dibujar();b=document.querySelector('#'+id+' [data-k="'+b.dataset.k+'"]');if(b)b.focus();});}
+evento('gGob',st.gob);evento('gTra',st.tra);
+document.querySelectorAll('#gEco button').forEach(function(b){b.addEventListener('click',function(){st.eco=b.dataset.v;dibujar();});});
+Promise.all([fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r){return r.json();}),fetch('datos/actual.json',{cache:'no-cache'}).then(function(r){return r.json();})]).then(function(r){M=r[0];A=r[1];dibujar();}).catch(function(){document.getElementById('gIcg').parentNode.insertAdjacentHTML('afterend','<p style="font-size:13px;color:var(--ink2)">No se pudieron cargar los datos del gráfico.</p>');});
+});
+</script>
 <section style="margin-top:0">
 <h2 style="font-size:clamp(17px,2.2vw,21px);font-weight:600;margin:0 0 4px">ICG corregido vs. voto del oficialismo, 2003-2025</h2>
 <p class="sub">ICG corregido propio, construido sobre el ICG de la Universidad Di Tella (mes anterior a cada elección, escala 0-100). En cada tipo de elección se usa el método que menos error dio: corregido nacional, suma de regiones o criterio por región. Desde 2009 cada valor es una predicción hecha sin incluir esa elección en la calibración. Elecciones generales, PASO y balotajes presidenciales nacionales, 2003-2025. P presidencial, L legislativa, B balotaje.</p>
