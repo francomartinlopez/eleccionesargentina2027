@@ -2,7 +2,7 @@ name: Actualizar con el último ICG
 
 on:
   schedule:
-    - cron: '17 13 * * *'   # todos los días, 10:17 de Argentina
+    - cron: '17 13 20-31 * *'   # del 20 a fin de mes, 10:17 de Argentina (la Di Tella publica entre el 24 y el 28)
   workflow_dispatch:
 
 permissions:
