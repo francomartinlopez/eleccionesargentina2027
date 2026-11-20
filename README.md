@@ -17,7 +17,7 @@ Todo está en `index.html`, en una sola página con menú: el índice (bloques 2
 
 ## Actualización
 
-1. La acción `.github/workflows/actualizar.yml` corre del 20 a fin de cada mes (la Di Tella publica entre el 24 y el 28; también se puede lanzar a mano). Descarga los microdatos de la Di Tella (`scripts/descargar.py`), recalcula (`scripts/actualizar.py`), actualiza los valores de respaldo de la página (`scripts/respaldo.py`) y corre los controles (`scripts/verificar.py`). Si hay un mes nuevo, sube los cambios y Netlify publica.
+1. La acción `.github/workflows/actualizar.yml` corre el día 1 de cada mes, a las 10:17 (la Di Tella publica entre el 24 y el 28 del mes anterior; también se puede lanzar a mano desde Actions). Descarga los microdatos de la Di Tella (`scripts/descargar.py`), recalcula (`scripts/actualizar.py`), actualiza los valores de respaldo de la página (`scripts/respaldo.py`) y corre los controles (`scripts/verificar.py`). Si hay un mes nuevo, sube los cambios y Netlify publica.
 2. La acción `.github/workflows/economia.yml` (día 22 de cada mes) recalcula el ajuste por proyección económica (`scripts/economia/`).
 3. La acción `.github/workflows/verificar.yml` corre los controles en cada cambio de `main`.
 4. Dos tareas programadas de Claude revisan cada mes los textos interpretativos y cada lunes las fechas y resultados provinciales (ver `CLAUDE.md`).
