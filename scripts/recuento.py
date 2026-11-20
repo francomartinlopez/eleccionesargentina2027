@@ -11,7 +11,7 @@ import json, re
 from collections import Counter
 from pathlib import Path
 
-HTML = Path(__file__).resolve().parents[1] / 'index.html'
+HTML = Path(__file__).resolve().parents[1] / 'datos' / 'comp.js'
 PROB = [('k', 'k'), ('solo', 'kic'), ('pf', 'kic_pf')]
 
 
@@ -51,7 +51,9 @@ if __name__ == '__main__':
     bl = [x for x in X if not x['prim']]
     print('casos', len(R), '| balotaje', len(bl), '| LLA gana balotaje', sum(x['win'] == 'LLA' for x in bl))
     print('sin balotaje', sum(x['prim'] for x in X), 'ganados por LLA', sum(x['prim'] and x['win'] == 'LLA' for x in X))
-    print('primero', Counter(fam(x['first']) for x in X))
+    print('primero', Counter(fam(x['first']) for x in X), '| frentes kirchneristas primeros:', Counter(x['first'] for x in X if fam(x['first']) == 'kirchnerismo'))
+    print('balotajes: LLA gana', sum(x['win'] == 'LLA' and x['bal'] > 50 for x in bl), '| empates en 50,0:', sum(round(x['bal'], 1) == 50.0 for x in bl),
+          '| pierde', sum(round(x['bal'], 1) < 50.0 for x in bl), '| definidos por 1 punto o menos:', sum(abs(x['bal'] - 50) <= 1.0 for x in bl))
     print('rival', Counter(fam(x['riv']) for x in bl), '| pierde contra', Counter(x['win'] for x in bl if x['win'] != 'LLA'))
     print('juntos sin balotaje', sum(x['prim'] for c, x in zip(R, X) if c['pro'] == 'lla'), 'de', sum(c['pro'] == 'lla' for c in R),
           '| separados', sum(x['prim'] for c, x in zip(R, X) if c['pro'] != 'lla'), 'de', sum(c['pro'] != 'lla' for c in R))

@@ -33,7 +33,7 @@ s = s[:i] + '\n' + hd('Con PASO') + '<tr>' + c(a['paso'], 0) + c(a['gen'], 1) + 
 s = re.sub(r'var PD=\{.*?\};var PDE=', lambda m: 'var PD=' + json.dumps(A['proyectado'], separators=(',', ':')) + ';var PDE=', s, count=1, flags=re.S)
 s = re.sub(r'var PDE=\{.*?\};var st=', lambda m: 'var PDE=' + json.dumps(A['proyectado_eco'], separators=(',', ':')) + ';var st=', s, count=1, flags=re.S)
 s = re.sub(r'"2027 P \(proy\.\)":\{"reg":\{.*?\},"nac":\[[^\]]*\]\}', lambda m: '"2027 P (proy.)":' + json.dumps(A['mapa2027'], separators=(',', ':')).replace('NaN', 'null'), s, count=1, flags=re.S)
-s = re.sub(r'var ACT=\{.*?\};var COMP=', lambda m: 'var ACT=' + json.dumps(A['actual'], separators=(',', ':')) + ';var COMP=', s, count=1, flags=re.S)
+s = re.sub(r'var ACT=\{.*?\};var st=', lambda m: 'var ACT=' + json.dumps(A['actual'], separators=(',', ':')) + ';var st=', s, count=1, flags=re.S)
 
 def lectura(a):
     g, si, b = a['gen'], a['sin'], a['bal']

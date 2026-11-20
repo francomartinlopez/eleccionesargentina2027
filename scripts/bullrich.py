@@ -18,7 +18,7 @@ import json, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML = ROOT / 'index.html'
+HTML = ROOT / 'datos' / 'comp.js'
 PTS = 4.0
 REF_P, REF_G = 33.6, 39.0
 TR = {'pro': (.75, .05, .20), 'ce': (.45, .20, .35), 'pf': (.35, .40, .25),

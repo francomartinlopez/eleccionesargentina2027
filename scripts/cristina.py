@@ -25,7 +25,7 @@ fuerte 5.
 import json, re
 from pathlib import Path
 
-HTML = Path(__file__).resolve().parents[1] / 'index.html'
+HTML = Path(__file__).resolve().parents[1] / 'datos' / 'comp.js'
 REF_P, REF_G, REF_B = 33.6, 39.0, 55.4
 INT = {'leve': 1.0, 'media': 2.5, 'fuerte': 5.0}
 PF_RET = 0.60

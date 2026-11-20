@@ -3,7 +3,7 @@ import json, re, copy
 from pathlib import Path
 import openpyxl
 ROOT = Path(__file__).resolve().parents[1]
-s = (ROOT / 'index.html').read_text(encoding='utf-8')
+s = (ROOT / 'datos' / 'comp.js').read_text(encoding='utf-8')
 C = json.loads(re.search(r'var COMP=(\[.*?\]);\n', s).group(1))
 X = ROOT / 'datos/escenarios-2027.xlsx'
 wb = openpyxl.load_workbook(X)
@@ -37,6 +37,7 @@ for c in C:
     otros = sorted(O, key=lambda o: -o[2]); riv = next(o for o in O if o[3])
     if g >= 45 or (g >= 40 and g - otros[0][2] >= 10): res = 'Gana LLA en primera vuelta'
     elif g < otros[1][2]: res = 'Balotaje sin LLA: ' + otros[0][0] + ' y ' + otros[1][0]
+    elif bal == 50.0: res = 'Balotaje: empate en 50,0 % con ' + riv[0]
     else: res = 'Balotaje: gana ' + ('LLA' if bal > 50 else riv[0])
     ids = ' y '.join(x for x in (c.get('bid'), c.get('km'), c.get('cid')) if x)
     v = {'Hoja': 'Cristina (sensibilidad)' if 'cid' in c else 'Bullrich' if 'bid' in c else 'Kicillof y Massa', 'Cristina Kirchner': LAB['cr'][c.get('cr', 'no')], 'Escenario': '%s (sobre Tabla %s, 2027 %s)' % (ids, c['t'], c['s']),
@@ -77,5 +78,16 @@ for hoja in wb:
         for c in row:
             if isinstance(c.value, str) and 'No entran en el recuento de los 52.' in c.value:
                 c.value = c.value.replace('No entran en el recuento de los 52.', 'No entran en el recuento de 170 casos: solo dan rango.')
+# Índice: quita el título repetido al comienzo de la descripción ("LLA y PRO juntos. LLA y PRO juntos; ...")
+for row in ix.iter_rows():
+    for c in row:
+        if isinstance(c.value, str):
+            t = c.value.split('. ')[0]
+            if len(t) > 8 and c.value.startswith(t + '. ' + t):
+                c.value = c.value[len(t) + 2:]
+wb.properties.title = 'Escenarios de coaliciones, elección presidencial argentina 2027'
+wb.properties.creator = 'Franco Martín López'
+wb.properties.lastModifiedBy = 'Franco Martín López'
+wb.properties.subject = 'Tablas A a M y todas las combinaciones del sitio eleccionesargentina2027.netlify.app'
 wb.save(X)
 print(len(filas), 'filas,', len(H), 'columnas')

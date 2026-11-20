@@ -1,8 +1,8 @@
 """Combinaciones con Kicillof y Massa (paso 1 de los cambios acordados el 19-11-2026).
 
-Parte de las 124 composiciones del bloque 3 (`var COMP` en index.html, las que no
+Parte de las 124 composiciones del bloque 3 (`var COMP` en datos/comp.js, las que no
 tienen `km`) y agrega las variantes en que Kicillof y Massa se separan del
-kirchnerismo. Escribe la lista completa de vuelta en index.html.
+kirchnerismo. Escribe la lista completa de vuelta en datos/comp.js.
 
 Uso: python3 scripts/kicillof_massa.py [--solo-mostrar]
 
@@ -27,7 +27,7 @@ import json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML = ROOT / 'index.html'
+HTML = ROOT / 'datos' / 'comp.js'
 
 REF_P, REF_G, REF_B = 33.6, 39.0, 55.4   # Tabla A, 2027 B (referencia del bloque)
 KIC, MAS = 2 / 3, 0.12
@@ -222,4 +222,4 @@ if __name__ == '__main__':
     todo = base + nuevos
     txt = json.dumps(todo, ensure_ascii=False, separators=(',', ':'))
     HTML.write_text(s[:m.start(1)] + txt + s[m.end(1):], encoding='utf-8')
-    print('index.html actualizado:', len(todo), 'composiciones')
+    print("datos/comp.js actualizado:", len(todo), 'composiciones')

@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: escritura-main
+  cancel-in-progress: false
 jobs:
   economia:
     runs-on: ubuntu-latest
@@ -28,4 +31,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add datos
           git commit -m "Series económicas: ajuste recalculado"
-          git push
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 15; done; exit 1
