@@ -1,4 +1,4 @@
-/* Elecciones provinciales 2027: datos del efecto sobre LLA. Ver js/provincias.js. Esperado: of (oficial), amb (ambiguo), op (opositor). Efecto: [PASO, general, balotaje] en fracción del máximo. Estado de la fecha: c confirmada, a anunciada, e estimada. */
+/* Elecciones provinciales 2027: datos del efecto sobre LLA. Ver js/provincias.js. Esperado: of (oficial), amb (ambiguo), op (opositor). Efecto: [PASO, general, balotaje] en fracción del máximo. Estado de la fecha: c confirmada, a anunciada, e estimada. Cuando una provincia vota se agrega "real": {"res": "of|amb|op", "ganador": "Nombre (fuerza)", "pct": 45.2, "segundo": "Nombre (fuerza)", "pct2": 30.1, "margen": 15.1, "fecha": "AAAA-MM-DD", "fuente": "escrutinio provisorio|definitivo", "url": "..."}. Buenos Aires: "real": {"res": "pc|pa|sa|sc", "texto": "..."}; Ciudad: "real": {"res": "of|amb|op", "texto": "..."}. */
 window.PROV_DATA = {
  "actualizado": "2026-11-19",
  "nacionales": {
@@ -29,7 +29,12 @@ window.PROV_DATA = {
   },
   "dias_mitad": 92,
   "vuelco": 0.6,
-  "racha": 1.5
+  "racha": 1.5,
+  "margen_alto": 10,
+  "margen_bajo": 3,
+  "f_alto": 1.25,
+  "f_bajo": 0.75,
+  "icg_posterior": 0.5
  },
  "ba": {
   "esperado": "pa",

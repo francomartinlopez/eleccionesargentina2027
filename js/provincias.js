@@ -9,19 +9,28 @@
   var NAC = { P: new Date(PD.nacionales.paso), G: new Date(PD.nacionales.general), B: new Date(PD.nacionales.balotaje) };
   var CBA = PD.provincias.filter(function (p) { return p.n == 'Córdoba'; })[0].padron;
   function peso(p) { return Math.sqrt(p.padron / CBA); }
-  function res(p) { return st.modo == 'prob' ? p.esperado : (st.sel[p.n] || p.esperado); }
+  function res(p) { if (p.real) return p.real.res; return st.modo == 'prob' ? p.esperado : (st.sel[p.n] || p.esperado); }
+  /* Resultado real: el margen escala el efecto y, cuando ya hay un ICG de un mes posterior a la elección, vale la mitad (el índice ya refleja parte del clima). */
+  function factorReal(p) {
+    if (!p.real) return 1;
+    var m = p.real.margen, f = m == null ? 1 : Math.abs(m) > PD.reglas.margen_alto ? PD.reglas.f_alto : Math.abs(m) < PD.reglas.margen_bajo ? PD.reglas.f_bajo : 1;
+    var mes = window.ACTUAL && window.ACTUAL.mes;
+    if (mes && mes > p.real.fecha.slice(0, 7)) f *= PD.reglas.icg_posterior;
+    return f;
+  }
+  function votaron() { return PD.provincias.filter(function (p) { return p.real; }).length; }
   function calc(sinPaso) {
     var MAX = sinPaso ? PD.reglas.max_sin : PD.reglas.max_con, TOPE = sinPaso ? PD.reglas.tope_sin : PD.reglas.tope_con;
     var filas = [], grupos = {};
     PD.provincias.forEach(function (p) {
       var r = res(p), e = p.efecto[r]; if (!e) return;
       var w = peso(p); if (r == 'of' && p.propio) w = Math.max(w, PD.reglas.vuelco);
-      var dP = new Date(p.senal_paso || p.fecha), dG = new Date(p.fecha), v = {};
+      var dP = new Date(p.senal_paso || p.fecha), dG = new Date(p.fecha), v = {}, fr = factorReal(p);
       ['P', 'G', 'B'].forEach(function (k, i) {
         if (!(k in MAX)) return;
         var d = k == 'P' ? dP : dG; if (d >= NAC[k]) return;
         var dias = (NAC[k] - d) / 864e5, dec = dias > PD.reglas.dias_mitad ? 0.5 : 1;
-        v[k] = e[i] * w * MAX[k] * dec;
+        v[k] = e[i] * w * MAX[k] * dec * fr;
       });
       var sg = (v.P || 0) + (v.G || 0); sg = sg > 0 ? 1 : sg < 0 ? -1 : 0;
       if (sg) { var key = dG.getMonth() + '_' + sg; (grupos[key] = grupos[key] || []).push(p.n); }
@@ -31,7 +40,8 @@
     var t = { P: 0, G: 0, B: 0 };
     filas.forEach(function (f) { var m = racha[f.n] ? PD.reglas.racha : 1; for (var k in f.v) t[k] += f.v[k] * m; });
     for (var k in t) if (TOPE[k] != null) t[k] = Math.max(-TOPE[k], Math.min(TOPE[k], t[k]));
-    var ba = PD.ba.opciones[st.ba], cb = PD.caba.efecto[st.caba] || 0;
+    var bak = PD.ba.real ? PD.ba.real.res : st.ba, cbk = PD.caba.real ? PD.caba.real.res : st.caba;
+    var ba = PD.ba.opciones[bak], cb = PD.caba.efecto[cbk] || 0;
     t.P += ba.P; t.G += ba.G + cb; t.B += ba.B;
     return t;
   }
@@ -61,20 +71,20 @@
     if (st.modo != 'no') {
       var e = window.PROVEF();
       h += '<div style="font-size:13px;color:var(--ink2);margin:4px 0 0;line-height:1.45"><strong style="color:var(--ink)">Ajuste para LLA por las provinciales:</strong> con PASO, PASO ' + f(e.P) + ' · general ' + f(e.G) + ' · balotaje ' + f(e.B) + ' puntos; sin PASO, general ' + f(e.GS) + ' · balotaje ' + f(e.BS) + '. ' +
-        (st.modo == 'prob' ? 'Aplica el resultado más probable de cada provincia.' : 'Elija el resultado de cada provincia.') + ' Detalle en Metodología.</div>';
+        (st.modo == 'prob' ? 'Aplica el resultado más probable de cada provincia.' : 'Elija el resultado de cada provincia.') + (votaron() ? ' Ya votaron ' + votaron() + ' de ' + PD.provincias.length + ': para ellas se usa el resultado real.' : '') + ' Detalle en Metodología.</div>';
     }
     if (st.modo == 'int') {
       h += '<div style="margin:8px 0 0;font-size:13px;color:var(--ink2)">Escenarios rápidos</div>' +
         grp('data-pv-rap', [['esp', 'Lo esperado'], ['buen', 'Buen año para LLA'], ['mal', 'Mal año para LLA'], ['cba', 'Córdoba la gana LLA'], ['sf', 'Santa Fe con alianza']], null);
       h += '<div style="margin:6px 0 0;font-size:13px;color:var(--ink2)">Buenos Aires, gobernador (mismo día que la Nación)</div>' +
-        grp('data-pv-ba', [['pc', 'Peronismo claro'], ['pa', 'Peronismo ajustado'], ['sa', 'Santilli ajustado'], ['sc', 'Santilli claro']], st.ba);
+        (PD.ba.real ? '<div style="font-size:13px"><strong>Votó:</strong> ' + PD.ba.real.texto + '</div>' : grp('data-pv-ba', [['pc', 'Peronismo claro'], ['pa', 'Peronismo ajustado'], ['sa', 'Santilli ajustado'], ['sc', 'Santilli claro']], st.ba));
       h += '<div style="margin:6px 0 0;font-size:13px;color:var(--ink2)">Ciudad de Buenos Aires (si vota con la Nación)</div>' +
-        grp('data-pv-caba', [['of', 'PRO con LLA'], ['amb', 'PRO sin LLA'], ['op', 'Gana la oposición']], st.caba);
+        (PD.caba.real ? '<div style="font-size:13px"><strong>Votó:</strong> ' + PD.caba.real.texto + '</div>' : grp('data-pv-caba', [['of', 'PRO con LLA'], ['amb', 'PRO sin LLA'], ['op', 'Gana la oposición']], st.caba));
       h += '<div style="margin:8px 0 2px;font-size:13px;color:var(--ink2)">Cada provincia, por fecha. El punto marca el resultado más probable.</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px 14px">';
       PD.provincias.forEach(function (p) {
         var r = res(p);
-        h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:13px;padding:3px 0;border-bottom:1px solid var(--line)"><span>' + p.n + ' <span style="color:var(--ink2)">' + fecha(p.fecha) + '</span></span>' +
-          grp('data-pv-prov="' + p.n + '"', ['of', 'amb', 'op'].map(function (k) { return [k, LAB[k] + (p.esperado == k ? ' •' : '')]; }), r, 1) + '</div>';
+        h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:13px;padding:3px 0;border-bottom:1px solid var(--line)"><span>' + p.n + ' <span style="color:var(--ink2)">' + fecha(p.fecha) + (p.real ? ' · votó: ' + p.real.ganador + ' ' + String(p.real.pct).replace('.', ',') + ' %' : '') + '</span></span>' +
+          (p.real ? '<strong style="font-size:12px">' + LAB[r] + ' ✓</strong>' : grp('data-pv-prov="' + p.n + '"', ['of', 'amb', 'op'].map(function (k) { return [k, LAB[k] + (p.esperado == k ? ' •' : '')]; }), r, 1)) + '</div>';
       });
       h += '</div>';
     }
@@ -107,10 +117,10 @@
   function metodo() {
     var el = document.getElementById('pvMetodo'); if (!el) return;
     var EST = { c: 'confirmada', a: 'anunciada', e: 'estimada' };
-    var h = '<table style="font-size:13px;width:100%;margin-top:6px"><thead><tr><th style="text-align:left">Provincia</th><th>Fecha</th><th>Estado</th><th>Más probable</th><th>Peso</th><th>Si gana oficial</th><th>Si gana ambiguo</th><th>Si gana opositor</th></tr></thead><tbody>';
+    var h = '<table style="font-size:13px;width:100%;margin-top:6px"><thead><tr><th style="text-align:left">Provincia</th><th>Fecha</th><th>Estado</th><th>Más probable</th><th>Resultado real</th><th>Peso</th><th>Si gana oficial</th><th>Si gana ambiguo</th><th>Si gana opositor</th></tr></thead><tbody>';
     PD.provincias.forEach(function (p) {
       var cel = ['of', 'amb', 'op'].map(function (r) { return unoSolo(p, r); });
-      h += '<tr><td style="text-align:left">' + p.n + '</td><td>' + (p.paso_prov ? 'PASO ' + fecha(p.paso_prov) + ' · ' : '') + fecha(p.fecha) + '</td><td>' + EST[p.estado] + '</td><td>' + LAB[p.esperado] + '</td><td>' + peso(p).toFixed(2).replace('.', ',') + '</td>' + cel.map(function (c) { return '<td style="white-space:nowrap">' + c + '</td>'; }).join('') + '</tr>';
+      h += '<tr><td style="text-align:left">' + p.n + '</td><td>' + (p.paso_prov ? 'PASO ' + fecha(p.paso_prov) + ' · ' : '') + fecha(p.fecha) + '</td><td>' + EST[p.estado] + '</td><td>' + LAB[p.esperado] + '</td><td>' + (p.real ? LAB[p.real.res] + ': ' + p.real.ganador + ' ' + String(p.real.pct).replace('.', ',') + ' % (margen ' + String(p.real.margen).replace('.', ',') + ')' : '—') + '</td><td>' + peso(p).toFixed(2).replace('.', ',') + '</td>' + cel.map(function (c) { return '<td style="white-space:nowrap">' + c + '</td>'; }).join('') + '</tr>';
     });
     el.innerHTML = h + '</tbody></table><div style="font-size:12px;color:var(--ink2);margin-top:4px">Puntos para LLA en PASO / general / balotaje, con PASO nacionales, sin racha ni topes.</div>';
   }
@@ -124,5 +134,6 @@
     }).join(' / ');
   }
   function init() { pinta(); metodo(); }
+  var prevAct = window.alActualizar; window.alActualizar = function (A) { if (prevAct) prevAct(A); pinta(); };
   if (document.readyState == 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
