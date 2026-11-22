@@ -2,7 +2,7 @@
 // el resto queda en los valores por defecto. Se puede cambiar todo para ver qué hubiera pasado.
 // Cuenta como confirmado: lanzamiento formal o inscripción de una candidatura, inscripción de un
 // frente electoral, ley sancionada (PASO). No cuentan rumores ni encuestas.
-// Claves: pro, ce, cc, pf, kic, mas, bu, cr (botones del cuadro); out (outsider), vice, paso,
+// Claves: pro, ce, cc, pf, kic, mas, bu, cr (botones del cuadro); out (outsider: clave o lista de claves), vice, paso,
 // cand.pro, cand.ce, cand.cc, cand.pf, cand.kf (candidato de cada fuerza; cand.kf es el rival
 // interno del frente kirchnerista en la PASO).
 // Cada dato: v (valor), fuente, url, fecha (del hecho, si se conoce) y cargado (cuándo se cargó).

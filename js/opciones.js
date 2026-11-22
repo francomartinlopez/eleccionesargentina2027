@@ -16,10 +16,10 @@
   function coincide(p, key) { if (key == 'per') return fam(p) == 'kf' || p == 'pf'; return fam(p) == key || p == key; }
   function f1(x) { return x.toFixed(1).replace('.', ','); }
 
-  var DEF = {out: 'no', vice: 'otro', paso: 'sin', cand: {}};
-  var S = {out: 'no', vice: 'otro', paso: 'sin', cand: {}};
+  var DEF = {out: [], vice: 'otro', paso: 'sin', cand: {}};
+  var S = {out: [], vice: 'otro', paso: 'sin', cand: {}};
   function conf() {
-    S.out = CF.out ? CF.out.v : DEF.out; S.vice = CF.vice ? CF.vice.v : DEF.vice; S.paso = CF.paso ? CF.paso.v : DEF.paso; S.cand = {};
+    S.out = CF.out ? [].concat(CF.out.v) : []; S.vice = CF.vice ? CF.vice.v : DEF.vice; S.paso = CF.paso ? CF.paso.v : DEF.paso; S.cand = {};
     FUERZAS.forEach(function (k) { if (CF['cand.' + k]) S.cand[k] = CF['cand.' + k].v; });
   }
   conf();
@@ -88,12 +88,13 @@
     return 100 * a / (a + b);
   }
   function fuerzasDe(l) { var r = []; for (var p in l.pz) { var f = fam(p); if (FUERZAS.indexOf(f) >= 0 && r.indexOf(f) < 0) r.push(f); } return r; }
-  function outNombre() { var o = null; O.outsiders.forEach(function (x) { if (x.k == S.out) o = x; }); return o; }
+  function outsiders() { return O.outsiders.filter(function (x) { return S.out.indexOf(x.k) >= 0; }); }
+  function esOut(n) { return outsiders().some(function (x) { return x.n == n; }); }
   // Opciones de candidato de una lista: unión de los nombres de sus fuerzas, sin repetir (efecto mayor).
   var BU = 'lla';
   function buPRO(l) { return BU == 'pro' && fuerzasDe(l).indexOf('pro') >= 0; }
   function opciones(l, interna) {
-    var r = [], vistos = {}, on = outNombre();
+    var r = [], vistos = {};
     if (!interna && buPRO(l)) return r;
     fuerzasDe(l).forEach(function (f) {
       (O.candidatos[f] || []).forEach(function (c) {
@@ -103,7 +104,7 @@
         vistos[c.n] = r.length; r.push(c);
       });
     });
-    return r.map(function (c) { return {c: c, no: (on && on.n == c.n) || (interna && S.paso != 'con')}; });
+    return r.map(function (c) { return {c: c, no: esOut(c.n) || (interna && S.paso != 'con')}; });
   }
   function elegido(l, interna) {
     var ops = opciones(l, interna), fs = fuerzasDe(l), sel = null;
@@ -119,15 +120,15 @@
 
   function aplicar(c, stMain) {
     BU = stMain.bu;
-    var X = {L: listas(c), ext: 0}, txt = [], L0 = listas(c), on = outNombre(), vi = vice(stMain), hay = false;
-    if (on) {
+    var X = {L: listas(c), ext: 0}, txt = [], L0 = listas(c), vi = vice(stMain), hay = false;
+    outsiders().forEach(function (on) {
       var v = on.v * O.afirm, a = abst(on), idx = X.L.push({n: on.n + ' (outsider)', G: 0, P: 0, g0: 0, r: 0, pz: {}, out: on.k}) - 1;
       for (var key in on.de) quitar(X, key, v * (1 - a) * on.de[key], idx).forEach(function (r) { dar(X, idx, r[0], r[1]); });
       var l = X.L[idx], tot = l.G;
       if (tot) for (var p in l.pz) l.pz[p] += v * a * l.pz[p] / tot; else l.pz.otro = v * a;
       l.G += v * a; X.ext += v * a; hay = true;
       txt.push('outsider ' + on.n + ' (' + f1(v) + ' % de los votos afirmativos)');
-    }
+    });
     var nL = X.L.length, internas = [];
     for (var i = 1; i < nL; i++) {
       if (X.L[i].out) continue;
@@ -173,7 +174,7 @@
     box.innerHTML =
       '<div style="font-size:13px;font-weight:600;color:var(--ink);margin:14px 0 0">PASO</div><div id="o_paso"></div>' +
       '<div style="font-size:13px;color:var(--ink2);margin:0 0 4px">Decide qué candidatos de interna se pueden elegir. El cuadro muestra igual los resultados con y sin PASO.</div>' +
-      '<details class="opc" id="o_dOut"><summary></summary><div style="font-size:13px;color:var(--ink2);margin:6px 0 2px">Compite con lista propia. Valor inicial de encuestas, llevado a votos afirmativos; sale de las fuerzas indicadas en Metodología.</div><div id="o_out"></div></details>' +
+      '<details class="opc" id="o_dOut"><summary></summary><div style="font-size:13px;color:var(--ink2);margin:6px 0 2px">Se pueden elegir varios; cada uno compite con lista propia. Valor inicial de encuestas, llevado a votos afirmativos; sale de las fuerzas indicadas en Metodología.</div><div id="o_out"></div></details>' +
       '<details class="opc" id="o_dVice"><summary></summary><div id="o_vice"></div></details>' +
       '<details class="opc" id="o_dCand"><summary></summary><div style="font-size:13px;color:var(--ink2);margin:6px 0 2px">Frente a un candidato genérico de esa fuerza. Si el frente une fuerzas, el candidato de una puede hacer perder votos de la otra (afinidad, ver Metodología).</div><div id="o_cand"></div></details>' +
       '<div style="margin:6px 0 0"><button type="button" id="o_conf" style="' + BST + ';border:1px solid var(--strong);border-radius:8px;background:transparent;color:var(--ink)">Volver a lo confirmado</button> <span style="font-size:13px;color:var(--ink2)">✓ = confirmado (lanzamiento, inscripción o ley). Ajuste aproximado sobre el escenario elegido; ver <a href="#met-opciones">Metodología</a>.</span></div>';
@@ -181,7 +182,7 @@
       var b = ev.target.closest('button'); if (!b || b.disabled) return;
       if (b.id == 'o_conf') { conf(); if (window.compConf) window.compConf(); return; }
       var g = b.dataset.g, v = b.dataset.v;
-      if (g == 'paso') S.paso = v; else if (g == 'out') S.out = v; else if (g == 'vice') S.vice = v;
+      if (g == 'paso') S.paso = v; else if (g == 'out') { if (v == 'no') S.out = []; else { var i = S.out.indexOf(v); if (i >= 0) S.out.splice(i, 1); else S.out.push(v); } } else if (g == 'vice') S.vice = v;
       else if (g == 'cand') { b.dataset.f.split(',').forEach(function (f) { if (v) S.cand[f] = v; else delete S.cand[f]; }); }
       else if (g == 'int') { if (v) S.cand.kf = v; else delete S.cand.kf; }
       if (window.compDraw) window.compDraw();
@@ -191,10 +192,10 @@
     BU = stMain.bu;
     if (!document.getElementById('o_paso')) return;
     document.getElementById('o_paso').innerHTML = '<div style="' + GST + '">' + boton('paso', 'sin', 'Sin PASO', S.paso == 'sin', false, cfDe('paso', 'sin')) + boton('paso', 'con', 'Con PASO', S.paso == 'con', false, cfDe('paso', 'con')) + '</div>';
-    var on = outNombre();
-    document.querySelector('#o_dOut summary').innerHTML = 'Outsider: <strong>' + (on ? on.n + ' (' + f1(on.v) + ')' : 'ninguno') + '</strong>';
-    var h = boton('out', 'no', 'Ninguno', S.out == 'no', false, cfDe('out', 'no'));
-    O.outsiders.forEach(function (o) { h += boton('out', o.k, o.n + ' (' + f1(o.v) + (o.est ? ', estimado' : '') + ')', S.out == o.k, false, cfDe('out', o.k)); });
+    var os = outsiders();
+    document.querySelector('#o_dOut summary').innerHTML = 'Outsiders: <strong>' + (os.length ? os.map(function (o) { return o.n + ' (' + f1(o.v) + ')'; }).join(', ') : 'ninguno') + '</strong>';
+    var h = boton('out', 'no', 'Ninguno', !os.length, false, null);
+    O.outsiders.forEach(function (o) { var cf = CF.out && [].concat(CF.out.v).indexOf(o.k) >= 0 ? CF.out : null; h += boton('out', o.k, o.n + ' (' + f1(o.v) + (o.est ? ', estimado' : '') + ')', S.out.indexOf(o.k) >= 0, false, cf); });
     document.getElementById('o_out').innerHTML = '<div style="' + GST + '">' + h + '</div>';
     var vi = vice(stMain), vn = 'Otro';
     O.vice.forEach(function (x) { if (x.k == S.vice && (x.k != 'bullrich' || stMain.bu != 'pro')) vn = x.n; });
