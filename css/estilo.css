@@ -133,3 +133,7 @@ button[aria-pressed=false][data-lejos]{color:var(--ink2)!important;font-style:it
  #p2027,#p2027proy,#p2027comp,.res,.kpi,.big{break-inside:avoid;box-shadow:none}
  .graf>div{min-width:0}
 }
+button[data-conf]::after{content:" ✓"}
+details.opc{margin:8px 0 0;border:1px solid var(--strong);border-radius:8px;padding:6px 10px;background:var(--bg)}
+details.opc summary{cursor:pointer;font-size:13px;color:var(--ink)}
+details.opc[open] summary{margin-bottom:4px}

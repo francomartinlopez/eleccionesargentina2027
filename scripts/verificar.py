@@ -75,6 +75,21 @@ for v in D['provincias']:
 for z in ('ba', 'caba'):
     if sum(D[z]['prob'].values()) != 100: falla('probabilidades de %s que no suman 100' % z)
 
+# opciones del cuadro (outsiders, vice, candidatos) y lo confirmado
+o = (R / 'datos/opciones.js').read_text(encoding='utf-8')
+def num(x):
+    a, _, b = x.partition('/')
+    return float(a) / float(b) if b else float(a)
+for g in re.findall(r'\b(?:de|a): \{([^}]*)\}', o):
+    tot = sum(num(x) for x in re.findall(r':\s*([0-9.]+(?:/[0-9]+)?)', g))
+    if abs(tot - 1) > 0.01: falla('reparto que no suma 100 %% en datos/opciones.js: {%s}' % g)
+for nombre, v in re.findall(r"n: '([^']+)', v: ([0-9.]+)", o):
+    if '%s %s' % (nombre, v.replace('.', ',')) not in h: falla('el valor de %s (%s) no coincide con Metodología' % (nombre, v))
+cf = (R / 'datos/confirmados.js').read_text(encoding='utf-8')
+for clave, cuerpo in re.findall(r"'([a-z.]+)': \{(v: .*?)\}", cf):
+    for campo in ('fuente:', 'url:', 'cargado:'):
+        if campo not in cuerpo: falla('al dato confirmado %s le falta %s' % (clave, campo[:-1]))
+
 # página
 ids = re.findall(r'\sid="([^"]+)"', h)
 dup = [i for i, n in Counter(ids).items() if n > 1]
