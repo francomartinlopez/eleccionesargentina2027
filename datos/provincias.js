@@ -6,7 +6,7 @@
    Cuando una provincia vota se agrega "real": {"res": "of|amb|op", "ganador": "Nombre (fuerza)", "pct": 45.2, "segundo": "Nombre (fuerza)", "pct2": 30.1, "margen": 15.1, "fecha": "AAAA-MM-DD", "fuente": "escrutinio provisorio|definitivo", "url": "..."}.
    Buenos Aires: "real": {"res": "pc|pa|sa|sc", "texto": "..."}; Ciudad: "real": {"res": "of|amb|op", "texto": "..."}. */
 window.PROV_DATA = {
- "actualizado": "2026-11-20",
+ "actualizado": "2026-11-23",
  "nacionales": {
   "paso": "2027-08-08",
   "general": "2027-10-24",
@@ -574,8 +574,8 @@ window.PROV_DATA = {
   },
   {
    "n": "Chubut",
-   "fecha": "2027-07-25",
-   "estado": "e",
+   "fecha": "2027-03-21",
+   "estado": "c",
    "esperado": "amb",
    "efecto": {
     "of": [
@@ -602,8 +602,8 @@ window.PROV_DATA = {
     "op": 15
    },
    "fuente": {
-    "texto": "Sin fecha oficial: el gobernador Torres evalúa junio-julio sin PASO nacionales o agosto con PASO",
-    "url": "https://cholilaonline.ar/2026/10/torres-respaldo-eliminar-las-paso.html"
+    "texto": "Decreto de convocatoria del gobernador Torres (20-11-2026); sin PASO provinciales (nuevo Código Electoral)",
+    "url": "https://www.infobae.com/politica/2026/11/20/chubut-adelanto-las-elecciones-a-marzo-y-torres-buscara-la-reeleccion/"
    }
   },
   {
