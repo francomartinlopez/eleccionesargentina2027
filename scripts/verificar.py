@@ -90,6 +90,17 @@ for clave, cuerpo in re.findall(r"'([a-z.]+)': \{(v: .*?)\}", cf):
     for campo in ('fuente:', 'url:', 'cargado:'):
         if campo not in cuerpo: falla('al dato confirmado %s le falta %s' % (clave, campo[:-1]))
 
+# datos-informe.json (web de informes de Plexum)
+di = json.loads((R / 'datos-informe.json').read_text(encoding='utf-8'))
+if di.get('web') != 'Elecciones 2027': falla('datos-informe.json: "web" debe ser "Elecciones 2027"')
+for clave in ('version', 'generado', 'indicadores', 'novedades', 'agenda', 'faltantes'):
+    if clave not in di: falla('datos-informe.json: falta "%s"' % clave)
+for i in di.get('indicadores', []):
+    if i.get('valor') in (None, '') or not i.get('fecha_dato') or not (i.get('fuente_original') or i.get('url')):
+        falla('datos-informe.json: indicador incompleto %s' % i.get('id'))
+for e in di.get('novedades', []) + di.get('agenda', []):
+    if e.get('eje') not in ('Política nacional',): falla('datos-informe.json: eje fuera de la lista en %s' % e)
+
 # página
 ids = re.findall(r'\sid="([^"]+)"', h)
 dup = [i for i, n in Counter(ids).items() if n > 1]

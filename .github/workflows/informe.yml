@@ -1,0 +1,35 @@
+name: Datos para informes
+
+# Regenera datos-informe.json (web de informes de Plexum) todos los días, para que la agenda
+# de los próximos 60 días y las novedades de los últimos 90 se mantengan al día.
+# Solo hace commit si cambió algo más que la hora de generación.
+on:
+  schedule:
+    - cron: '23 9 * * *'   # todos los días, 6:23 de Argentina
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: escritura-main
+  cancel-in-progress: false
+
+jobs:
+  informe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generar datos-informe.json
+        run: python scripts/informe.py
+      - name: Subir cambios
+        run: |
+          if git diff --quiet -- datos-informe.json; then echo "Sin cambios"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos-informe.json
+          git commit -m "Datos para informes: agenda y novedades al día"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 15; done; exit 1

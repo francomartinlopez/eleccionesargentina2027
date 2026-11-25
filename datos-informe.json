@@ -1,0 +1,179 @@
+{
+  "web": "Elecciones 2027",
+  "version": "1.0",
+  "generado": "2026-11-25T10:52:01-03:00",
+  "indicadores": [
+    {
+      "id": "icg-nacional",
+      "nombre": "Índice de Confianza en el Gobierno (Di Tella)",
+      "valor": 2.04,
+      "unidad": "puntos (escala de 0 a 5)",
+      "variacion": {
+        "valor": 0.08,
+        "unidad": "puntos",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    },
+    {
+      "id": "voto-oficialismo-paso",
+      "nombre": "Voto del oficialismo en la PASO 2027 según el ICG corregido",
+      "valor": 38.0,
+      "unidad": "% de los votos afirmativos",
+      "variacion": {
+        "valor": 1.6,
+        "unidad": "p. p.",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    },
+    {
+      "id": "voto-oficialismo-general-con-paso",
+      "nombre": "Voto del oficialismo en la general 2027 con PASO según el ICG corregido",
+      "valor": 44.3,
+      "unidad": "% de los votos afirmativos",
+      "variacion": {
+        "valor": 1.2,
+        "unidad": "p. p.",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    },
+    {
+      "id": "voto-oficialismo-general-sin-paso",
+      "nombre": "Voto del oficialismo en la general 2027 sin PASO según el ICG corregido",
+      "valor": 41.1,
+      "unidad": "% de los votos afirmativos",
+      "variacion": {
+        "valor": 1.4,
+        "unidad": "p. p.",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    },
+    {
+      "id": "voto-oficialismo-balotaje",
+      "nombre": "Voto del oficialismo en el balotaje 2027 según el ICG corregido",
+      "valor": 48.9,
+      "unidad": "% de los votos afirmativos",
+      "variacion": {
+        "valor": 0.4,
+        "unidad": "p. p.",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    },
+    {
+      "id": "voto-oficialismo-general-proyectado",
+      "nombre": "Voto del oficialismo en la general 2027 con PASO, proyectado a la elección (trayectoria central del ICG)",
+      "valor": 46.0,
+      "unidad": "% de los votos afirmativos",
+      "variacion": {
+        "valor": 1.5,
+        "unidad": "p. p.",
+        "contra": "mes anterior"
+      },
+      "fecha_dato": "2026-11-17",
+      "periodo": "2026-11",
+      "fuente_original": "Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027proy"
+    }
+  ],
+  "novedades": [
+    {
+      "id": "2026-11-icg-di-tella",
+      "fecha_dato": "2026-11-17",
+      "titulo": "Índice de Confianza en el Gobierno de noviembre de 2026",
+      "resumen": "La Di Tella relevó 1000 casos entre el 3 de noviembre y el 17 de noviembre. El índice quedó en 2,04 (+0,08 contra el mes anterior). Con el índice corregido, el oficialismo obtendría entre 42,9 y 46,5 % en la general con PASO.",
+      "tipo": "encuesta",
+      "eje": "Política nacional",
+      "alcance": {
+        "nivel": "nacional",
+        "provincia": "",
+        "localidad": "",
+        "pais": "Argentina"
+      },
+      "rubros": [],
+      "subrubros": [],
+      "exposicion": [],
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+    }
+  ],
+  "agenda": [],
+  "faltantes": []
+}

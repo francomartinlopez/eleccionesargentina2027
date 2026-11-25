@@ -27,14 +27,15 @@ jobs:
         run: |
           python scripts/actualizar.py fuentes/icg.dta
           python scripts/respaldo.py
+          python scripts/informe.py
       - name: Controles
         run: python scripts/verificar.py
       - name: Subir cambios
         run: |
-          if git diff --quiet -- datos index.html; then echo "Sin cambios"; exit 0; fi
+          if git diff --quiet -- datos index.html datos-informe.json; then echo "Sin cambios"; exit 0; fi
           MES=$(python -c "import json;print(json.load(open('datos/actual.json'))['mes'])")
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add datos index.html
+          git add datos index.html datos-informe.json
           git commit -m "Datos: ICG de $MES"
           for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 15; done; exit 1

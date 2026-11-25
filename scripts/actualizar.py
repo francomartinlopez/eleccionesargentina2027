@@ -16,7 +16,7 @@ b, T, w = P['b'], P['T'], P['w']
 MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
 
 def icg_por_region(dta):
-    df = pd.read_stata(dta, convert_categoricals=False, columns=['año','mes','Ciudad','ICG','ponderacion_UTDT'])
+    df = pd.read_stata(dta, convert_categoricals=False, columns=['año','mes','dia','Ciudad','ICG','ponderacion_UTDT'])
     c2r = {c: r for r, cs in P['regiones'].items() for c in cs}
     df['reg'] = df.Ciudad.map(c2r)
     df = df[df.ICG.notna()]
@@ -25,6 +25,8 @@ def icg_por_region(dta):
         k = f'{int(y)}-{int(m):02d}'
         pw = g.ponderacion_UTDT.fillna(1)
         out[k] = {'nacional': round(float(np.average(g.ICG, weights=pw)), 3), 'n': int(len(g))}
+        d = g.dia.dropna()
+        if len(d): out[k]['campo'] = [f'{k}-{int(d.min()):02d}', f'{k}-{int(d.max()):02d}']
         for r, gr in g.groupby('reg'):
             out[k][r] = [round(float(np.average(gr.ICG, weights=gr.ponderacion_UTDT.fillna(1))), 3), int(len(gr)),
                          round(float(gr.ICG.std() / np.sqrt(len(gr))), 3)]
