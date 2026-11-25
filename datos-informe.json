@@ -1,7 +1,7 @@
 {
   "web": "Elecciones 2027",
-  "version": "1.0",
-  "generado": "2026-11-25T10:52:01-03:00",
+  "version": "1.3",
+  "generado": "2026-11-25T14:07:01-03:00",
   "indicadores": [
     {
       "id": "icg-nacional",
@@ -9,8 +9,8 @@
       "valor": 2.04,
       "unidad": "puntos (escala de 0 a 5)",
       "variacion": {
-        "valor": 0.08,
-        "unidad": "puntos",
+        "valor": 4.1,
+        "unidad": "%",
         "contra": "mes anterior"
       },
       "fecha_dato": "2026-11-17",
@@ -26,7 +26,115 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027",
+      "tipo_valor": "nivel",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual",
+        "interanual"
+      ],
+      "serie": [
+        {
+          "fecha": "2024-11-14",
+          "valor": 2.66
+        },
+        {
+          "fecha": "2024-12-16",
+          "valor": 2.65
+        },
+        {
+          "fecha": "2025-01-15",
+          "valor": 2.6
+        },
+        {
+          "fecha": "2025-02-13",
+          "valor": 2.56
+        },
+        {
+          "fecha": "2025-03-14",
+          "valor": 2.42
+        },
+        {
+          "fecha": "2025-04-11",
+          "valor": 2.33
+        },
+        {
+          "fecha": "2025-05-12",
+          "valor": 2.45
+        },
+        {
+          "fecha": "2025-06-12",
+          "valor": 2.34
+        },
+        {
+          "fecha": "2025-07-16",
+          "valor": 2.45
+        },
+        {
+          "fecha": "2025-08-14",
+          "valor": 2.12
+        },
+        {
+          "fecha": "2025-09-15",
+          "valor": 1.94
+        },
+        {
+          "fecha": "2025-10-14",
+          "valor": 2.1
+        },
+        {
+          "fecha": "2025-11-13",
+          "valor": 2.47
+        },
+        {
+          "fecha": "2025-12-15",
+          "valor": 2.46
+        },
+        {
+          "fecha": "2026-01-15",
+          "valor": 2.4
+        },
+        {
+          "fecha": "2026-02-12",
+          "valor": 2.38
+        },
+        {
+          "fecha": "2026-03-13",
+          "valor": 2.3
+        },
+        {
+          "fecha": "2026-04-17",
+          "valor": 2.02
+        },
+        {
+          "fecha": "2026-05-19",
+          "valor": 1.99
+        },
+        {
+          "fecha": "2026-06-11",
+          "valor": 2.07
+        },
+        {
+          "fecha": "2026-07-16",
+          "valor": 1.94
+        },
+        {
+          "fecha": "2026-08-13",
+          "valor": 2.06
+        },
+        {
+          "fecha": "2026-09-09",
+          "valor": 1.94
+        },
+        {
+          "fecha": "2026-10-16",
+          "valor": 1.96
+        },
+        {
+          "fecha": "2026-11-17",
+          "valor": 2.04
+        }
+      ]
     },
     {
       "id": "voto-oficialismo-paso",
@@ -51,7 +159,12 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027",
+      "tipo_valor": "tasa",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual"
+      ]
     },
     {
       "id": "voto-oficialismo-general-con-paso",
@@ -76,7 +189,12 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027",
+      "tipo_valor": "tasa",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual"
+      ]
     },
     {
       "id": "voto-oficialismo-general-sin-paso",
@@ -101,7 +219,12 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027",
+      "tipo_valor": "tasa",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual"
+      ]
     },
     {
       "id": "voto-oficialismo-balotaje",
@@ -126,7 +249,12 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027",
+      "tipo_valor": "tasa",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual"
+      ]
     },
     {
       "id": "voto-oficialismo-general-proyectado",
@@ -151,7 +279,12 @@
       "rubros": [],
       "subrubros": [],
       "exposicion": [],
-      "url": "https://eleccionesargentina2027.netlify.app/#p2027proy"
+      "url": "https://eleccionesargentina2027.netlify.app/#p2027proy",
+      "tipo_valor": "tasa",
+      "frecuencia": "mensual",
+      "comparar": [
+        "mensual"
+      ]
     }
   ],
   "novedades": [

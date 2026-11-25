@@ -72,7 +72,7 @@ def main():
 
     ind, falt = [], []
 
-    def agregar(id_, nombre, valor, unidad, fuente, url, anterior=None, unidad_var='p. p.'):
+    def agregar(id_, nombre, valor, unidad, fuente, url, anterior=None, unidad_var='p. p.', extra=None):
         if valor is None:
             p = prev_ind.get(id_)
             falt.append({'id': id_, 'nombre': nombre, 'motivo': 'El cálculo del último mes no dio este valor',
@@ -87,10 +87,11 @@ def main():
         elif anterior is None and p and p.get('periodo') == mes and p.get('variacion'):
             r['variacion'] = p['variacion']
         if anterior is not None:
-            r['variacion'] = {'valor': round(valor - anterior, 2 if unidad_var == 'puntos' else 1),
-                              'unidad': unidad_var, 'contra': 'mes anterior'}
+            dv = (valor / anterior - 1) * 100 if unidad_var == '%' else valor - anterior
+            r['variacion'] = {'valor': round(dv, 1), 'unidad': unidad_var, 'contra': 'mes anterior'}
         r.update({'fecha_dato': fdato, 'periodo': mes, 'fuente_original': fuente, 'eje': 'Política nacional',
                   'alcance': NAC, 'rubros': [], 'subrubros': [], 'exposicion': [], 'url': url})
+        r.update(extra or {'tipo_valor': 'tasa', 'frecuencia': 'mensual', 'comparar': ['mensual']})
         ind.append(r)
 
     PREV = {'voto-oficialismo-paso': lambda o: o['actual']['paso'][0],
@@ -100,8 +101,21 @@ def main():
             'voto-oficialismo-general-proyectado': lambda o: o['proyectado']['todos_cen']['gen'][0]}
     i_ant = meses.index(mes) - 1 if mes in meses else -1
     icg_ant = round(mens[meses[i_ant]]['nacional'], 2) if i_ant >= 0 else None
+    # serie del ICG (la web la muestra en el gráfico por mes de mandato): hasta 25 meses, fecha = fin del campo
+    serie = []
+    for k in [x for x in meses if x <= mes][-25:]:
+        yy, mm = map(int, k.split('-'))
+        c = mens[k].get('campo')
+        serie.append({'fecha': c[1] if c else f'{k}-{calendar.monthrange(yy, mm)[1]:02d}',
+                      'valor': round(mens[k]['nacional'], 2)})
+    if serie and act.get('icg_nacional') is not None:
+        serie[-1]['valor'] = act['icg_nacional']
+    icg_ant_raw = mens[meses[i_ant]]['nacional'] if i_ant >= 0 else None
     agregar('icg-nacional', 'Índice de Confianza en el Gobierno (Di Tella)', act.get('icg_nacional'),
-            'puntos (escala de 0 a 5)', 'Universidad Torcuato Di Tella', SITIO + '#p2027', icg_ant, 'puntos')
+            'puntos (escala de 0 a 5)', 'Universidad Torcuato Di Tella', SITIO + '#p2027',
+            None if icg_ant_raw is None else round(icg_ant_raw * act['icg_nacional'] / ult['nacional'], 4) if ult.get('nacional') else icg_ant_raw,
+            '%', {'tipo_valor': 'nivel', 'frecuencia': 'mensual',
+                  'comparar': ['mensual', 'interanual'] if len(serie) >= 13 else ['mensual'], 'serie': serie})
     a = act.get('actual', {})
     fte = 'Universidad Torcuato Di Tella (ICG); cálculo propio con el ICG corregido'
     for k, n in (('paso', 'Voto del oficialismo en la PASO 2027 según el ICG corregido'),
@@ -163,7 +177,7 @@ def main():
         evento(p.get('fecha'), f'Elección de gobernador en {p["n"]}{marca}', alc, url)
     ag.sort(key=lambda e: (e['fecha'], e['evento']))
 
-    datos = {'web': 'Elecciones 2027', 'version': '1.0', 'generado': '', 'indicadores': ind,
+    datos = {'web': 'Elecciones 2027', 'version': '1.3', 'generado': '', 'indicadores': ind,
              'novedades': nov, 'agenda': ag, 'faltantes': falt}
     if previo:
         comp = dict(previo); comp['generado'] = ''
