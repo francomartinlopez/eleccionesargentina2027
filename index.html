@@ -173,9 +173,36 @@ Promise.all([fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r)
 <p style="margin:0">La legislativa de octubre de 2001 no entra: el ICG empezó a medirse en noviembre de 2001.</p>
 <p style="margin:12px 0 0">Las proyecciones para 2027 están en el recuadro del principio de la página.</p>
 </div>
+<div id="icgcapas">
 <h2 style="font-size:clamp(17px,2.2vw,21px);font-weight:600;margin:26px 0 4px">ICG mensual desde 2001</h2>
-<p class="sub" style="margin:0 0 6px">Índice de Confianza en el Gobierno de la Di Tella, de 0 a 5, desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. Debajo de la línea punteada (1,95), el oficialismo conserva un piso de votos mayor que su aprobación.</p>
-<figure class="serie" style="margin:0 0 6px"><svg id="serie" viewBox="0 0 1000 320" style="min-height:200px" role="img" aria-label="Índice de Confianza en el Gobierno mensual desde noviembre de 2001"></svg></figure>
+<p class="sub" id="sub" style="margin:0 0 6px">Índice de Confianza en el Gobierno de la Di Tella, de 0 a 5, desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. Debajo de la línea punteada (1,95), el oficialismo conserva un piso de votos mayor que su aprobación.</p>
+<div class="ctl" role="group" aria-label="Capas del gráfico">Mostrar:
+<button type="button" id="bCorr" aria-pressed="false">ICG corregido</button>
+<button type="button" id="bElec" aria-pressed="false">Resultados de las elecciones</button>
+</div>
+<div class="ctl" role="group" aria-label="Base de los resultados" id="icBase" hidden>Resultados como:
+<button type="button" id="bAf" aria-pressed="true">% de los votos afirmativos</button>
+<button type="button" id="bPd" aria-pressed="false">% del padrón</button>
+</div>
+<div class="ctl" role="group" aria-label="Votos que no van a ningún candidato">En cada elección:
+<button type="button" id="bAbs" aria-pressed="false">Abstención</button>
+<button type="button" id="bBl" aria-pressed="false">Voto en blanco</button>
+<button type="button" id="bNu" aria-pressed="false">Voto nulo</button>
+</div>
+<div class="ley" id="ley" hidden>
+<span><i style="width:16px;border-top:2px solid var(--accent);display:inline-block"></i>ICG de la Di Tella × 20</span>
+<span id="lCorr"><i style="width:16px;border-top:2px solid var(--corr);display:inline-block"></i>ICG corregido</span>
+<span class="lE"><i class="sw" style="border-radius:50%;background:var(--g1)"></i>Presidencial</span>
+<span class="lE"><i class="sw" style="border-radius:2px;background:var(--g1o)"></i>Balotaje</span>
+<span class="lE"><i class="sw" style="transform:rotate(45deg);background:var(--g2)"></i>Legislativa</span>
+<span class="lE"><i class="sw" style="border-radius:50%;border:2px solid var(--g1)"></i>PASO</span>
+<span id="lAbs"><i class="sw" style="background:var(--abs)"></i>Abstención (% del padrón)</span>
+<span id="lBl"><i class="sw" style="background:var(--bl)"></i>Blanco (% del padrón)</span>
+<span id="lNu"><i class="sw" style="background:var(--nu)"></i>Nulo (% del padrón)</span>
+</div>
+<figure class="serie" id="fig" style="margin:0 0 6px"><div class="tip" id="tip" hidden></div><svg id="serie" viewBox="0 0 1000 320" style="min-height:200px" role="img" aria-label="Índice de Confianza en el Gobierno mensual desde noviembre de 2001"></svg></figure>
+<p class="nota-g" id="nota"></p>
+</div>
 <details id="det-valores-por-eleccion" style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:18px"><summary style="cursor:pointer"><span style="font-size:clamp(17px,2.2vw,21px);font-weight:600">Valores por elección</span><br><span style="font-size:13px;color:var(--ink2)">ICG, ICG corregido, método usado, voto del oficialismo y error en cada una de las 21 elecciones.</span></summary>
 <div tabindex="0" role="region" aria-label="Tabla (se desplaza de costado)" style="overflow-x:auto;margin-top:8px"><table style="table-layout:auto;min-width:560px;font-size:13px">
 <thead><tr class="sb"><th style="text-align:left">Elección</th><th class="g">ICG mes ant. (0-5)</th><th class="s">Escala 0-100</th><th class="s">ICG corregido</th><th class="s" style="text-align:left">Método</th><th class="g">Voto oficialismo</th><th class="s">Error</th></tr></thead>
@@ -194,6 +221,62 @@ Promise.all([fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r)
 <li><strong>Contraste con la Tabla A (Excel de escenarios):</strong> el escenario 2027 B (sin PASO) da 39,0 % a LLA + PRO, dentro del rango del índice para una general sin PASO (<span data-v="actual.sin" data-r>38,0-44,3</span> %). Con PASO, el índice da <span data-v="actual.gen" data-r>42,9-46,5</span> %: <span data-pvgen>todo el rango supera el 40 %: el oficialismo ganaría en primera vuelta si le saca más de 10 puntos al segundo, o sin condiciones en la parte alta, por encima del 45 %.</span></li>
 </ul></div></details>
 
+</div>
+<div id="partbloque">
+<h2 id="participacion" style="font-size:clamp(17px,2.2vw,21px);font-weight:600;margin:26px 0 4px">Participación electoral desde 1946</h2>
+<p class="sub" style="margin:0 0 6px">Cada punto es el porcentaje del padrón que fue a votar; la línea que baja llega al porcentaje que votó por algún candidato, sin contar votos en blanco ni nulos. Las PASO van con línea punteada. La línea gruesa es la tendencia de la participación en las elecciones generales y la franja, cuánto se aparta cada elección de esa tendencia. Los porcentajes de este sitio se calculan sobre esos votos afirmativos.</p>
+<div class="ley" aria-hidden="true">
+<span><i class="sw" style="border-radius:50%;background:var(--g1)"></i>Presidencial (primera vuelta)</span>
+<span><i class="sw" style="border-radius:2px;background:var(--g1o)"></i>Balotaje</span>
+<span><i class="sw" style="transform:rotate(45deg);background:var(--g2)"></i>Legislativa de medio término</span>
+<span><i class="sw" style="border-radius:50%;border:2px solid var(--g1c)"></i>PASO presidencial</span>
+<span><i class="sw" style="transform:rotate(45deg);border:2px solid var(--g2c)"></i>PASO legislativa</span>
+<span><i style="width:14px;border-top:2px solid var(--strong);display:inline-block"></i>Hasta el voto afirmativo</span>
+<span><i style="width:18px;border-top:3px solid var(--tend);display:inline-block"></i>Tendencia de la participación</span>
+<span><i class="sw" style="width:18px;background:var(--banda);border:1px solid var(--tend)"></i>Volatilidad (±1 desvío)</span>
+</div>
+<div class="pgraf" tabindex="0" role="region" aria-label="Gráfico de participación electoral (se desplaza de costado)"><div><canvas id="part" role="img" aria-label="Participación electoral y voto afirmativo en cada elección nacional de 1946 a 2025"></canvas></div></div>
+<p class="pista">Deslice el gráfico de costado para ver todas las elecciones.</p>
+
+<div class="clave">
+<div><b>86 → 74 %</b><small>es la tendencia de la participación en las elecciones generales: cerca de 86 % en los años cincuenta y sesenta, 84 % en 1983 y 74 % en 2025.</small></div>
+<div><b>67,9 %</b><small>votó en la legislativa de 2025: la participación más baja en una elección general desde 1946. Solo la PASO de 2021 (67,8 %) quedó apenas por debajo.</small></div>
+<div><b>64,4 %</b><small>del padrón votó por algún candidato en 2025, el segundo valor más bajo en una general, después de 2001 (59,6 %).</small></div>
+<div><b>±4,1 puntos</b><small>se aparta la participación de su tendencia en las generales de 2013 a 2025, el doble que entre 1983 y 2001 (±2,0). El salto medio de una elección a la siguiente pasó de 2,4 a 5,5 puntos.</small></div>
+</div>
+
+<details style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:14px">
+<summary style="cursor:pointer"><span style="font-size:clamp(17px,2.2vw,21px);font-weight:600">Notas del gráfico</span><br><span style="font-size:13px;color:var(--ink2)">Las elecciones marcadas con un número.</span></summary>
+<ol style="margin:8px 0 0;padding-left:22px;font-size:14px;color:var(--ink2)">
+<li><b>1958.</b> Con el peronismo proscripto, Perón ordenó votar a Frondizi, pero una parte votó en blanco (9 %).</li>
+<li><b>1960.</b> El peronismo, otra vez proscripto, votó en blanco por orden de Perón (25 %): es el máximo de la serie.</li>
+<li><b>1963.</b> Nueva proscripción y nuevo llamado a votar en blanco (21 %). Illia ganó con cerca de un cuarto de los votos.</li>
+<li><b>2001.</b> El «voto bronca», meses antes del estallido de diciembre (21 % de blanco y nulo).</li>
+<li><b>2005.</b> Legislativa de la poscrisis, con 10 % de votos en blanco y nulos.</li>
+<li><b>2007.</b> Récord de voto en blanco en una presidencial desde 1983 (6,4 %).</li>
+<li><b>2025.</b> Primera elección con Boleta Única Papel y sin PASO. La participación (67,9 %) fue la más baja en una general desde 1946; con 5,2 % de blanco y nulo, el voto afirmativo (64,4 %) fue el segundo más bajo, después de 2001.</li>
+</ol>
+</details>
+
+<details style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:14px">
+<summary style="cursor:pointer"><span style="font-size:clamp(17px,2.2vw,21px);font-weight:600">Datos por elección</span><br><span style="font-size:13px;color:var(--ink2)">Participación, blanco y nulo, y voto afirmativo de las 41 elecciones del gráfico.</span></summary>
+<div tabindex="0" role="region" aria-label="Tabla (se desplaza de costado)" style="overflow-x:auto;margin-top:8px"><table style="table-layout:auto;min-width:560px;font-size:13px"><thead><tr><th>Elección</th><th>Tipo</th><th class="n">Participación (% del padrón)</th><th class="n">Blanco y nulo (% de los emitidos)</th><th class="n">Voto afirmativo (% del padrón)</th></tr></thead><tbody id="partRows"></tbody></table></div>
+</details>
+
+<details style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:14px">
+<summary style="cursor:pointer"><span style="font-size:clamp(17px,2.2vw,21px);font-weight:600">Metodología y fuentes</span><br><span style="font-size:13px;color:var(--ink2)">Cómo se calculó y de dónde salen los datos.</span></summary>
+<ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--ink2)">
+<li>Voto afirmativo (% del padrón) = participación × (1 − blanco y nulo).</li>
+<li>Presidenciales en primera vuelta; las legislativas que coinciden con una presidencial no se muestran aparte. El eje horizontal va por elección, no es proporcional al tiempo.</li>
+<li>Tendencia: regresión local ponderada (lowess, con el 45 % de las elecciones más cercanas en el tiempo) sobre las 32 elecciones generales, presidenciales y legislativas, ubicadas en su fecha real. Las PASO y los balotajes no entran en el cálculo.</li>
+<li>Volatilidad: desvío estándar de la diferencia entre la participación y la tendencia en las últimas seis elecciones generales (con al menos tres). La franja va de la tendencia menos ese desvío a la tendencia más ese desvío. Parte de la volatilidad reciente es la diferencia, cada vez mayor, entre presidenciales y legislativas.</li>
+<li>Hasta 1946 solo votaban varones: 1951 fue la primera elección con voto femenino.</li>
+<li>Falta la legislativa de 1948, sin dato confiable. En 1991 se usó 79,9 % (Tula y otros) en lugar del 89,7 % de IDEA.</li>
+<li>En 2003 no hubo balotaje (Menem se retiró) y en 2025 no hubo PASO.</li>
+<li>El blanco y nulo de las PASO 2011 y 2019 son estimaciones propias (blancos, nulos e impugnados sobre los votantes aproximados); el de 2017 es del escrutinio provisorio. La participación en las PASO varía entre fuentes según se use el escrutinio provisorio o el definitivo.</li>
+<li>Fuentes: IDEA Internacional, Voter Turnout Database (participación 1946–1973 y blanco y nulo de las generales); Chequeado (participación 1983–2023, balotajes 2015 y 2023 y legislativas 2025); Wikipedia (1954, 1960, 1963, 1965 y PASO 2013); Directorio Legislativo, informe poselectoral 2025 (blanco 2,74 % y nulo 2,46 %); y prensa nacional e Iberoamericana para la participación y el blanco y nulo de las PASO.</li>
+</ul>
+</details>
 </div>
 </section>
 <section style="margin-top:10px"><details id="det-icg-por-region-vs-voto-del-oficialismo" style="border:1px solid var(--line);border-radius:10px;padding:10px 12px">
@@ -695,26 +778,144 @@ var e=window.PROVEF?window.PROVEF():{P:0,G:0,B:0,GS:0,BS:0};rows.innerHTML='<tr>
 [['pEco','eco'],['pTra','tra'],['pEsc','esc']].forEach(function(p){document.querySelectorAll('#'+p[0]+' button').forEach(function(b){b.addEventListener('click',function(){st[p[1]]=b.dataset.v;draw();});});});
 window.proyDraw=draw;draw();})();
 </script><script>
-fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(M){
-var svg=document.getElementById('serie'),NS='http://www.w3.org/2000/svg',W=Math.max(320,svg.parentNode.clientWidth),H=W<600?240:320,l=26,r=W<600?22:40,t=26,b=34;svg.setAttribute('viewBox','0 0 '+W+' '+H);
-var ks=Object.keys(M).sort(),t0=2001+10/12,t1=2027+9/12,ymax=4;
-(function(){var a=M[ks[ks.length-1]].nacional,b=M[ks[ks.length-4]].nacional,ch=(a/b-1)*100,t='cambió '+(ch>=0?'+':'−')+Math.abs(ch).toFixed(1).replace('.',',')+'\u202f% en los últimos tres meses'+(ch>20?': supera la suba de 20 % y la regla se activa (se usa el promedio de esos tres meses)':', lejos de una suba de 20 %: la regla no se activa');document.querySelectorAll('[data-tend]').forEach(function(e){e.textContent=t;});})();
-function X(a,m){return l+(a+(m-1)/12-t0)/(t1-t0)*(W-l-r);}function Y(v){return t+(1-v/ymax)*(H-t-b);}
-function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;}
-for(var v=0;v<=ymax;v++){el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:'var(--line)'});el('text',{x:l-8,y:Y(v)+4,'text-anchor':'end','class':'eje'},v);}
-el('line',{x1:l,x2:W-r,y1:Y(1.95),y2:Y(1.95),'class':'ref'});
-[[2003,4,1],[2005,10],[2007,10,1],[2009,6],[2011,10,1],[2013,10],[2015,10,1],[2017,10],[2019,10,1],[2021,11],[2023,10,1],[2025,10]].forEach(function(e){var x=X(e[0],e[1]);el('line',{x1:x,x2:x,y1:t,y2:H-b,'class':'elec','stroke-dasharray':e[2]?'':'2 3'});if(e[2]&&(W>=600||e[0]%8==3))el('text',{x:x,y:H-b+18,'text-anchor':'middle','class':'eje'},e[0]);});
-var x27=X(2027,10);el('line',{x1:x27,x2:x27,y1:t,y2:H-b,stroke:'var(--sol)','stroke-width':1.5});el('text',{x:x27,y:H-b+18,'text-anchor':'middle','class':'eje',style:'fill:var(--sol);font-weight:600'},2027);
-var pts=ks.map(function(k){var p=k.split('-');return [X(+p[0],+p[1]),Y(M[k].nacional)];});
-var d='M'+pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join('L');
-el('path',{d:d+'L'+pts[pts.length-1][0].toFixed(1)+','+Y(0)+'L'+pts[0][0].toFixed(1)+','+Y(0)+'Z','class':'ar'});
-var ln=el('path',{d:d,'class':'ln'});
-var u=pts[pts.length-1],k=ks[ks.length-1],p=k.split('-');
-var MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-el('circle',{cx:u[0],cy:u[1],r:5,'class':'hoy'});
-el('line',{x1:u[0],x2:u[0],y1:t-4,y2:u[1]-6,stroke:'var(--sol)','stroke-width':1});var lab=el('text',{x:u[0]+4,y:t-8,'text-anchor':'end','class':'et'},MS[+p[1]-1]+' '+p[0]+': '+M[k].nacional.toFixed(2).replace('.',','));
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var L=ln.getTotalLength();ln.style.strokeDasharray=L;ln.style.strokeDashoffset=L;ln.getBoundingClientRect();ln.style.transition='stroke-dashoffset 1.6s ease-out';ln.style.strokeDashoffset=0;}
-}).catch(function(){});
+Promise.all([fetch('datos/icg_mensual.json',{cache:'no-cache'}).then(r=>r.json()),fetch('datos/parametros.json',{cache:'no-cache'}).then(r=>r.json())]).then(([M0,P])=>{
+const ks0=Object.keys(M0).sort();
+(function(){var a=M0[ks0[ks0.length-1]].nacional,b=M0[ks0[ks0.length-4]].nacional,ch=(a/b-1)*100,t='cambió '+(ch>=0?'+':'−')+Math.abs(ch).toFixed(1).replace('.',',')+'\u202f% en los últimos tres meses'+(ch>20?': supera la suba de 20 % y la regla se activa (se usa el promedio de esos tres meses)':', lejos de una suba de 20 %: la regla no se activa');document.querySelectorAll('[data-tend]').forEach(function(e){e.textContent=t;});})();
+// ICG corregido de cada mes: fórmula de las presidenciales (sin el ajuste por continuidad), suma de las seis regiones; índice nacional si falta alguna
+const RG=Object.keys(P.w),vf=i=>i+P.b[0]*Math.max(0,P.T-i),M={};
+ks0.forEach(q=>{const m=M0[q],ok=RG.every(r=>m[r]);M[q]=[m.nacional,ok?RG.reduce((a,r)=>a+P.w[r]*vf(m[r][0]*20),0):vf(m.nacional*20)];});
+
+// [elección, año, mes, tipo, voto del oficialismo, ICG corregido del mes anterior]
+const E=[["2003 P",2003,4,"P",22.25,36.1],["2005 L",2005,10,"L",39.46,42.3],["2007 P",2007,10,"P",45.29,38.8],["2009 L",2009,6,"L",29.89,30.1],["2011 PASO",2011,8,"PASO",47.98,46.3],["2011 P",2011,10,"P",54.11,51.9],["2013 PASO",2013,8,"PASO",29.65,30.6],["2013 L",2013,10,"L",33.05,34.5],["2015 PASO",2015,8,"PASO",36.69,39.9],["2015 P",2015,10,"P",37.08,38.4],["2015 B",2015,11,"B",48.66,47.4],["2017 PASO",2017,8,"PASO",35.90,37.0],["2017 L",2017,10,"L",41.75,42.8],["2019 PASO",2019,8,"PASO",32.08,32.1],["2019 P",2019,10,"P",40.28,39.8],["2021 PASO",2021,9,"PASO",30.90,29.8],["2021 L",2021,11,"L",34.17,34.4],["2023 PASO",2023,8,"PASO",27.28,27.0],["2023 P",2023,10,"P",36.78,36.5],["2023 B",2023,11,"B",44.35,44.6],["2025 L",2025,10,"L",40.84,40.2]];
+// participación y voto afirmativo (% del padrón), del gráfico «Participación electoral desde 1946», más abajo
+const PART={'2003 P':[78.2,76.1],'2005 L':[73.3,66],'2007 P':[76.2,70.4],'2009 L':[73.3,69.7],'2011 PASO':[78.7,75],'2011 P':[79.4,75.8],'2013 PASO':[77.4,73.3],'2013 L':[77.6,74.1],'2015 PASO':[74.9,70.3],'2015 P':[81.1,78.4],'2015 B':[80.8,78.8],'2017 PASO':[75,70.7],'2017 L':[77.6,74.4],'2019 PASO':[76.4,73.1],'2019 P':[80.4,78.4],'2021 PASO':[67.8,63.5],'2021 L':[71.6,68],'2023 PASO':[69,64.8],'2023 P':[77,74.6],'2023 B':[76.4,73.9],'2025 L':[67.9,64.4]};
+// voto en blanco y nulo, % de los votos emitidos (categoría presidente en años presidenciales; diputados en las legislativas)
+const BN={'2003 P':[0.99,1.73],'2005 L':[7.65,2.37],'2007 P':[6.44,1.16],'2009 L':[3.93,1.72],'2011 PASO':[4.44,1.21],'2011 P':[3.50,0.98],'2013 PASO':[3.66,1.95],'2013 L':[3.53,1.33],'2015 PASO':[5.06,1.06],'2015 P':[2.55,0.77],'2015 B':[1.18,1.28],'2017 PASO':[3.64,2.16],'2017 L':[2.97,1.39],'2019 PASO':[3.41,1.23],'2019 P':[1.60,0.91],'2021 PASO':[3.82,2.79],'2021 L':[2.93,1.78],'2023 PASO':[5.44,1.24],'2023 P':[2.16,0.85],'2023 B':[1.55,1.67],'2025 L':[2.74,2.46]};
+const TIPO={P:'presidencial',L:'legislativa',PASO:'PASO',B:'balotaje'};
+const MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const f=(x,d)=>x.toFixed(d).replace('.',',');
+let G=null;
+const st={corr:false,elec:false,abs:false,bl:false,nu:false,pd:false};
+const svg=document.getElementById('serie'),NS='http://www.w3.org/2000/svg';
+const ks=Object.keys(M).sort(),t0=2001+10/12,t1=2027+9/12;
+function dibujar(){
+  const cienL=st.corr||st.elec||st.abs||st.bl||st.nu,porE=st.elec||st.abs||st.bl||st.nu,W=Math.max(320,svg.parentNode.clientWidth),H=(W<600?260:340)+(porE?34:0),l=cienL?(W<600?36:42):(W<600?30:34),r=W<600?22:40,t=26,b=porE?66:34;
+  const cien=st.corr||st.elec||st.abs||st.bl||st.nu,ymax=cien?80:4,paso=cien?20:1,k=cien?20:1;
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML='';
+  const X=(a,m)=>l+(a+(m-1)/12-t0)/(t1-t0)*(W-l-r),Y=v=>t+(1-v/ymax)*(H-t-b);
+  G={W,H,l,r,t,b,X,Y,cien,k};
+  const el=(n,a,txt)=>{const e=document.createElementNS(NS,n);for(const q in a)e.setAttribute(q,a[q]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  for(let v=0;v<=ymax;v+=paso){el('line',{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:'var(--line)'});el('text',{x:l-8,y:Y(v)+4,'text-anchor':'end','class':'eje'},cien?v+(v==ymax?' %':''):v);}
+  el('line',{x1:l,x2:W-r,y1:Y(1.95*k),y2:Y(1.95*k),'class':'ref'});
+  [[2003,4,1],[2005,10],[2007,10,1],[2009,6],[2011,10,1],[2013,10],[2015,10,1],[2017,10],[2019,10,1],[2021,11],[2023,10,1],[2025,10]].forEach(e=>{const x=X(e[0],e[1]);el('line',{x1:x,x2:x,y1:t,y2:H-b,'class':'elec','stroke-dasharray':e[2]?'':'2 3'});if(!porE&&e[2]&&(W>=600||e[0]%8==3))el('text',{x:x,y:H-b+18,'text-anchor':'middle','class':'eje'},e[0]);});
+  const x27=X(2027,10);el('line',{x1:x27,x2:x27,y1:t,y2:H-b,stroke:'var(--sol)','stroke-width':1.5});el('text',{x:x27,y:H-b+18,'text-anchor':'middle','class':'eje',style:'fill:var(--sol);font-weight:600'},2027);
+  const pts=ks.map(q=>{const p=q.split('-');return [X(+p[0],+p[1]),Y(M[q][0]*k)];});
+  const d='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L');
+  el('path',{d:d+'L'+pts[pts.length-1][0].toFixed(1)+','+Y(0)+'L'+pts[0][0].toFixed(1)+','+Y(0)+'Z','class':'ar'});
+  el('path',{d:d,'class':'ln'});
+  if(st.corr){const c=ks.map(q=>{const p=q.split('-');return X(+p[0],+p[1]).toFixed(1)+','+Y(M[q][1]).toFixed(1);});el('path',{d:'M'+c.join('L'),'class':'co'});}
+  if(st.abs||st.bl||st.nu){const bw=W<600?3:5;E.forEach(e=>{const p=PART[e[0]],q=BN[e[0]];if(!p||!q)return;const x=X(e[1],e[2]),ab=100-p[0],bl=q[0]*p[0]/100,nu=q[1]*p[0]/100;let y0=0;const tt=e[0].split(' ')[0]+' '+TIPO[e[3]]+' (% del padrón): abstención '+f(ab,1)+' %, blanco '+f(bl,1)+' %, nulo '+f(nu,1)+' %';
+    [[st.abs,ab,'var(--abs)'],[st.bl,bl,'var(--bl)'],[st.nu,nu,'var(--nu)']].forEach(([on,v,c])=>{if(!on)return;const r=el('rect',{x:x-bw/2,y:Y(y0+v),width:bw,height:Math.max(1,Y(y0)-Y(y0+v)),fill:c,opacity:.9});const ti=document.createElementNS(NS,'title');ti.textContent=tt;r.appendChild(ti);y0+=v;});});}
+  if(st.elec){E.forEach(e=>{const x=X(e[1],e[2]),y=Y(vo(e)),col=e[3]=='L'?'var(--g2)':e[3]=='B'?'var(--g1o)':'var(--g1)';let m;
+    if(e[3]=='L')m=el('rect',{x:x-5,y:y-5,width:10,height:10,transform:'rotate(45 '+x+' '+y+')',fill:col,stroke:'var(--card)','stroke-width':1.5});
+    else if(e[3]=='B')m=el('rect',{x:x-5,y:y-5,width:10,height:10,rx:1.5,fill:col,stroke:'var(--card)','stroke-width':1.5});
+    else m=el('circle',{cx:x,cy:y,r:e[3]=='PASO'?4.5:5.5,fill:e[3]=='PASO'?'var(--card)':col,stroke:col,'stroke-width':e[3]=='PASO'?2:1.5});
+    const tt=document.createElementNS(NS,'title');tt.textContent=e[0].split(' ')[0]+' '+TIPO[e[3]]+': el oficialismo sacó '+f(e[4],1)+' % de los afirmativos ('+f(e[4]*PART[e[0]][1]/100,1)+' % del padrón); ICG corregido del mes anterior, '+f(e[5],1)+' %';m.appendChild(tt);});}
+  if(porE){const n={};E.forEach(e=>{n[e[1]]=(n[e[1]]||0)+1;});const g=W<600?11:13;
+    const L=E.map(e=>({x0:X(e[1],e[2]),tx:n[e[1]]>1?e[1]+' '+MS[e[2]-1]:String(e[1])}));
+    // separar etiquetas cercanas: empujar hacia la derecha y recentrar cada grupo
+    let i=0;while(i<L.length){let j=i;while(j+1<L.length&&L[j+1].x0-L[j].x0<g)j++;const c=(L[i].x0+L[j].x0)/2,w=(j-i)*g;for(let k=i;k<=j;k++)L[k].x=c-w/2+(k-i)*g;i=j+1;}
+    for(let k=1;k<L.length;k++)if(L[k].x<L[k-1].x+g)L[k].x=L[k-1].x+g;
+    L.forEach(o=>{const y=H-b+12;if(Math.abs(o.x-o.x0)>.5)el('path',{d:'M'+o.x0+','+(H-b)+'L'+o.x+','+(y-4),stroke:'var(--strong)','stroke-width':.8,fill:'none'});el('text',{x:o.x,y:y,'text-anchor':'end','class':'eje',transform:'rotate(-90 '+o.x+' '+y+')',style:'font-size:'+(W<600?10:11)+'px;dominant-baseline:middle'},o.tx);});}
+  const u=pts[pts.length-1],q=ks[ks.length-1],p=q.split('-');
+  el('circle',{cx:u[0],cy:u[1],r:5,'class':'hoy'});
+  el('line',{x1:u[0],x2:u[0],y1:t-4,y2:u[1]-6,stroke:'var(--sol)','stroke-width':1});
+  el('text',{x:u[0]+4,y:t-8,'text-anchor':'end','class':'et'},MS[+p[1]-1]+' '+p[0]+': '+(cien?f(M[q][0]*20,1)+' %'+(st.corr?' · corregido '+f(M[q][1],1)+' %':''):f(M[q][0],2)));
+  const cz=el('line',{id:'cruz',x1:0,x2:0,y1:t,y2:H-b,stroke:'var(--ink)','stroke-width':1,'stroke-dasharray':'2 3',opacity:0});
+  const cp=el('circle',{id:'cpto',r:4,fill:'var(--accent)',stroke:'var(--card)','stroke-width':1.5,opacity:0});
+  document.getElementById('sub').textContent=cien?'Índice de Confianza en el Gobierno de la Di Tella llevado a escala de 0 a 100 (multiplicado por 20), desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. La línea punteada (39 %) es el nivel debajo del cual el oficialismo conserva un piso de votos mayor que su aprobación.':'Índice de Confianza en el Gobierno de la Di Tella, de 0 a 5, desde noviembre de 2001. Las líneas verticales son las elecciones nacionales y la de la derecha, octubre de 2027. Debajo de la línea punteada (1,95), el oficialismo conserva un piso de votos mayor que su aprobación.';
+  document.getElementById('icBase').hidden=!st.elec;const ley=document.getElementById('ley');ley.hidden=!cien;document.getElementById('lCorr').hidden=!st.corr;document.getElementById('lAbs').hidden=!st.abs;document.getElementById('lBl').hidden=!st.bl;document.getElementById('lNu').hidden=!st.nu;ley.querySelectorAll('.lE').forEach(s=>s.hidden=!st.elec);
+  const n=[];if(st.corr)n.push('ICG corregido: el ICG de cada mes convertido en voto del oficialismo con la fórmula de las presidenciales (suma de las seis regiones desde marzo de 2008; antes, con el índice nacional, porque la muestra no cubría todas las regiones). No incluye el ajuste por continuidad (+1 punto) que se suma para 2027.');
+  if(st.elec)n.push('Puntos: voto del oficialismo en cada elección nacional desde 2003, en '+(st.pd?'% del padrón (el % de los votos afirmativos multiplicado por los votos afirmativos como % del padrón, del gráfico «Participación electoral desde 1946», más abajo)':'% de los votos afirmativos (válidamente emitidos)')+'. Al pasar el cursor sobre un punto se ve el ICG corregido del mes anterior.');
+  if(st.abs||st.bl||st.nu){const q=[st.abs&&'abstención',st.bl&&'voto en blanco',st.nu&&'voto nulo'].filter(Boolean);n.push('Barras ('+q.join(', ')+', apiladas en ese orden): % del padrón en cada elección nacional desde 2003. Abstención: participación del gráfico «Participación electoral desde 1946», más abajo. Blanco y nulo: escrutinios definitivos de la Cámara Nacional Electoral (presidente en los años presidenciales y diputados en las legislativas), pasados de % de los votos emitidos a % del padrón.');}
+  document.getElementById('nota').textContent=n.join(' ');
+}
+const vo=e=>st.pd?e[4]*PART[e[0]][1]/100:e[4];
+[['bAf',0],['bPd',1]].forEach(([id,v])=>document.getElementById(id).addEventListener('click',()=>{st.pd=!!v;document.getElementById('bAf').setAttribute('aria-pressed',!v);document.getElementById('bPd').setAttribute('aria-pressed',!!v);dibujar();}));
+[['bCorr','corr'],['bElec','elec'],['bAbs','abs'],['bBl','bl'],['bNu','nu']].forEach(([id,q])=>{const b=document.getElementById(id);b.addEventListener('click',()=>{st[q]=!st[q];b.setAttribute('aria-pressed',st[q]);dibujar();});});
+const tip=document.getElementById('tip'),fig=document.getElementById('fig');
+const KT=ks.map(q=>{const p=q.split('-');return [q,+p[0]+(+p[1]-1)/12];});
+function mover(ev){if(!G)return;const rc=svg.getBoundingClientRect(),px=(ev.clientX-rc.left)*G.W/rc.width;
+  if(px<G.l-4||px>G.W-G.r+4){ocultar();return;}
+  const tm=t0+(px-G.l)/(G.W-G.l-G.r)*(t1-t0);let best=KT[0],d=1e9;KT.forEach(o=>{const dd=Math.abs(o[1]-tm);if(dd<d){d=dd;best=o;}});
+  const [q]=best,p=q.split('-'),x=G.X(+p[0],+p[1]),mv=M[q];
+  const cz=document.getElementById('cruz'),cp=document.getElementById('cpto');
+  let h='';const elec=(st.elec||st.abs||st.bl||st.nu)?E.reduce((a,e)=>{const dx=Math.abs(G.X(e[1],e[2])-px);return dx<9&&(!a||dx<a[0])?[dx,e]:a;},null):null;
+  if(elec){const e=elec[1],ex=G.X(e[1],e[2]);cz.setAttribute('x1',ex);cz.setAttribute('x2',ex);cp.setAttribute('opacity',0);
+    h='<b>'+e[0].split(' ')[0]+' '+TIPO[e[3]]+' ('+MS[e[2]-1]+')</b>';
+    if(st.elec)h+='<br><i style="background:'+(e[3]=='L'?'var(--g2)':e[3]=='B'?'var(--g1o)':'var(--g1)')+'"></i>Oficialismo: '+(st.pd?f(e[4]*PART[e[0]][1]/100,1)+' % del padrón ('+f(e[4],1)+' % de los afirmativos)':f(e[4],1)+' % de los afirmativos ('+f(e[4]*PART[e[0]][1]/100,1)+' % del padrón)')+'<br><i style="background:var(--corr)"></i>ICG corregido del mes anterior: '+f(e[5],1)+' %';
+    const pp=PART[e[0]],bb=BN[e[0]];
+    if(pp&&bb&&(st.abs||st.bl||st.nu)){h+='<br><span style="color:var(--muted)">% del padrón:</span>';if(st.abs)h+='<br><i style="background:var(--abs)"></i>Abstención: '+f(100-pp[0],1)+' %';if(st.bl)h+='<br><i style="background:var(--bl)"></i>Blanco: '+f(bb[0]*pp[0]/100,1)+' % ('+f(bb[0],2)+' % de los emitidos)';if(st.nu)h+='<br><i style="background:var(--nu)"></i>Nulo: '+f(bb[1]*pp[0]/100,1)+' % ('+f(bb[1],2)+' % de los emitidos)';const sel=[st.abs&&100-pp[0],st.bl&&bb[0]*pp[0]/100,st.nu&&bb[1]*pp[0]/100].filter(v=>v!==false);if(sel.length>1){const nm=[st.abs&&'abstención',st.bl&&'blanco',st.nu&&'nulo'].filter(Boolean);h+='<br><b>Suma ('+nm.join(' + ')+'): '+f(sel.reduce((a,b)=>a+b,0),1)+' %</b>';if(!st.abs&&st.bl&&st.nu)h+=' ('+f(bb[0]+bb[1],2)+' % de los emitidos)';}}
+    var ax=ex;
+  }else{cz.setAttribute('x1',x);cz.setAttribute('x2',x);cp.setAttribute('cx',x);cp.setAttribute('cy',G.Y(mv[0]*G.k));cp.setAttribute('opacity',1);
+    h='<b>'+MS[+p[1]-1]+' '+p[0]+'</b><br><i style="background:var(--accent)"></i>ICG: '+f(mv[0],2)+(G.cien?' ('+f(mv[0]*20,1)+' %)':'');
+    if(st.corr)h+='<br><i style="background:var(--corr)"></i>ICG corregido: '+f(mv[1],1)+' %';var ax=x;}
+  cz.setAttribute('opacity',.5);tip.innerHTML=h;tip.hidden=false;
+  const fr=fig.getBoundingClientRect(),sx=rc.width/G.W,xx=(ax*sx)+(rc.left-fr.left),tw=tip.offsetWidth;
+  tip.style.left=Math.max(0,Math.min(fr.width-tw,xx+(xx>fr.width/2?-tw-12:12)))+'px';tip.style.top=Math.max(0,(ev.clientY-fr.top)-tip.offsetHeight-12)+'px';}
+function ocultar(){tip.hidden=true;const cz=document.getElementById('cruz'),cp=document.getElementById('cpto');if(cz)cz.setAttribute('opacity',0);if(cp)cp.setAttribute('opacity',0);}
+svg.addEventListener('pointermove',mover);svg.addEventListener('pointerdown',mover);svg.addEventListener('pointerleave',ocultar);
+const ro=new ResizeObserver(()=>dibujar());ro.observe(svg.parentNode);
+
+}).catch(()=>{});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+
+const Y=['1946','1951','1954','1958','1960','1962','1963','1965','1973','1973 sep','1983','1985','1987','1989','1991','1993','1995','1997','1999','2001','2003','2005','2007','2009','2011 PASO','2011','2013 PASO','2013','2015 PASO','2015','2015 bal.','2017 PASO','2017','2019 PASO','2019','2021 PASO','2021','2023 PASO','2023','2023 bal.','2025'];
+const ix=y=>Y.indexOf(y);
+const NOTA={'1958':1,'1960':2,'1963':3,'2001':4,'2005':5,'2007':6,'2025':7};
+const pres=[['1946',81.2,79.2,1946.15],['1951',88,86.6,1951.86],['1958',90.9,82.5,1958.15],['1963',85.5,67.3,1963.52],['1973',85.9,83.6,1973.19],['1973 sep',85.5,84.4,1973.72],['1983',85.6,83.2,1983.83],['1989',85.3,83.6,1989.37],['1995',82.1,78.6,1995.37],['1999',82.3,78.6,1999.82],['2003',78.2,76.1,2003.32],['2007',76.2,70.4,2007.82],['2011',79.4,75.8,2011.82],['2015',81.1,78.4,2015.82],['2019',80.4,78.4,2019.82],['2023',77,74.6,2023.81]];
+const balo=[['2015 bal.',80.8,78.8],['2023 bal.',76.4,73.9]];
+const leg=[['1954',86,84.3,1954.32],['1960',86.9,65,1960.23],['1962',85.7,82.6,1962.21],['1965',83.5,80,1965.21],['1985',83.8,82.1,1985.84],['1987',84.7,80.2,1987.68],['1991',79.9,73.7,1991.68],['1993',79.7,74.2,1993.78],['1997',78.2,73.4,1997.82],['2001',75.5,59.6,2001.79],['2005',73.3,66,2005.82],['2009',73.3,69.7,2009.49],['2013',77.6,74.1,2013.82],['2017',77.6,74.4,2017.82],['2021',71.6,68,2021.87],['2025',67.9,64.4,2025.82]];
+// tendencia (lowess) y volatilidad (desvío de los residuos en las últimas 6 generales)
+const gen=pres.concat(leg).sort((a,b)=>a[3]-b[3]),tt=gen.map(d=>d[3]),vv=gen.map(d=>d[1]);
+const lowess=(t,v,fr)=>{const n=t.length,k=Math.ceil(fr*n);return t.map(x=>{const d=t.map(u=>Math.abs(u-x)),h=[...d].sort((a,b)=>a-b)[k-1];let s0=0,s1=0,s2=0,sy=0,sxy=0;d.forEach((di,i)=>{const w=Math.pow(Math.max(0,1-Math.pow(di/h,3)),3),z=t[i]-x;s0+=w;s1+=w*z;s2+=w*z*z;sy+=w*v[i];sxy+=w*z*v[i];});return (s2*sy-s1*sxy)/(s0*s2-s1*s1);});};
+const tend=lowess(tt,vv,.45),res=vv.map((v,i)=>v-tend[i]);
+const sd=res.map((_,i)=>{const w=res.slice(Math.max(0,i-5),i+1);if(w.length<3)return null;const m=w.reduce((a,b)=>a+b,0)/w.length;return Math.sqrt(w.reduce((a,b)=>a+(b-m)*(b-m),0)/(w.length-1));});
+const pasoP=[['2011 PASO',78.7,75],['2015 PASO',74.9,70.3],['2019 PASO',76.4,73.1],['2023 PASO',69,64.8]];
+const pasoL=[['2013 PASO',77.4,73.3],['2017 PASO',75,70.7],['2021 PASO',67.8,63.5]];
+const f=v=>v.toFixed(1).replace('.',',');
+const nombre=y=>y.replace(' bal.',' balotaje').replace(' sep',' (septiembre)');
+const filas=[].concat(pres.map(d=>[d,'Presidencial']),balo.map(d=>[d,'Balotaje']),leg.map(d=>[d,'Legislativa']),pasoP.map(d=>[d,'PASO presidencial']),pasoL.map(d=>[d,'PASO legislativa'])).sort((a,b)=>ix(a[0][0])-ix(b[0][0]));
+document.getElementById('partRows').innerHTML=filas.map(([d,t])=>`<tr><td>${nombre(d[0])}</td><td>${t}</td><td class="n">${f(d[1])} %</td><td class="n">${f((1-d[2]/d[1])*100)} %</td><td class="n">${f(d[2])} %</td></tr>`).join('');
+
+const sonda=document.createElement('i');sonda.style.display='none';document.getElementById('partbloque').appendChild(sonda);
+const css=n=>{sonda.style.color='var('+n+')';return getComputedStyle(sonda).color;};
+const pt=a=>a.map(d=>({x:ix(d[0]),y:d[1],a:d[2],n:NOTA[d[0]]}));
+let ch=null;
+function dibujar(){
+  const C={tend:css('--tend'),banda:css('--banda'),g1:css('--g1'),g1o:css('--g1o'),g2:css('--g2'),g1c:css('--g1c'),g2c:css('--g2c'),bg:css('--card'),ink:css('--ink'),mut:css('--muted'),line:css('--line')};
+  const caidas={id:'caidas',beforeDatasetsDraw(c){const{ctx,scales:{x,y}}=c;c.data.datasets.forEach(ds=>{if(ds.banda)return;ctx.save();ctx.strokeStyle=ds.borderColor;ctx.globalAlpha=.55;ctx.lineWidth=2;ctx.lineCap='round';if(ds.punt)ctx.setLineDash([3,3]);ds.data.forEach(p=>{const px=x.getPixelForValue(p.x);ctx.beginPath();ctx.moveTo(px,y.getPixelForValue(p.y));ctx.lineTo(px,y.getPixelForValue(p.a));ctx.stroke();ctx.save();ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(px-3,y.getPixelForValue(p.a));ctx.lineTo(px+3,y.getPixelForValue(p.a));ctx.stroke();ctx.restore();});ctx.restore();});},
+    afterDatasetsDraw(c){const{ctx,scales:{x,y}}=c;c.data.datasets.forEach(ds=>{if(ds.banda)return;ds.data.forEach(p=>{if(!p.n)return;const px=x.getPixelForValue(p.x),py=y.getPixelForValue(p.a)+13;ctx.save();ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fillStyle=C.bg;ctx.fill();ctx.lineWidth=1.2;ctx.strokeStyle=ds.borderColor;ctx.stroke();ctx.fillStyle=C.ink;ctx.font='600 11px "IBM Plex Sans",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.n,px,py+.5);ctx.restore();});});}};
+  if(ch)ch.destroy();
+  ch=new Chart(document.getElementById('part'),{type:'scatter',plugins:[caidas],data:{datasets:[
+    {label:'Volatilidad (máx.)',data:gen.map((d,i)=>sd[i]==null?null:{x:ix(d[0]),y:tend[i]+sd[i]}).filter(Boolean),showLine:true,pointRadius:0,borderWidth:0,backgroundColor:C.banda,fill:false,banda:1,order:3},
+    {label:'Volatilidad (mín.)',data:gen.map((d,i)=>sd[i]==null?null:{x:ix(d[0]),y:tend[i]-sd[i]}).filter(Boolean),showLine:true,pointRadius:0,borderWidth:0,backgroundColor:C.banda,fill:'-1',banda:1,order:3},
+    {label:'Tendencia',data:gen.map((d,i)=>({x:ix(d[0]),y:tend[i]})),showLine:true,pointRadius:0,borderColor:C.tend,borderWidth:3,tension:.35,banda:1,order:2},
+    {label:'Presidencial',data:pt(pres),backgroundColor:C.g1,borderColor:C.g1,pointRadius:4.5,pointBorderColor:C.bg,pointBorderWidth:1.5},
+    {label:'Balotaje',data:pt(balo),pointStyle:'rect',backgroundColor:C.g1o,borderColor:C.g1o,pointRadius:5,pointBorderColor:C.bg,pointBorderWidth:1.5},
+    {label:'Legislativa',data:pt(leg),pointStyle:'rectRot',backgroundColor:C.g2,borderColor:C.g2,pointRadius:5,pointBorderColor:C.bg,pointBorderWidth:1.5},
+    {label:'PASO presidencial',data:pt(pasoP),punt:1,backgroundColor:C.bg,borderColor:C.g1c,pointBorderColor:C.g1c,pointBorderWidth:2,pointRadius:4},
+    {label:'PASO legislativa',data:pt(pasoL),punt:1,pointStyle:'rectRot',backgroundColor:C.bg,borderColor:C.g2c,pointBorderColor:C.g2c,pointBorderWidth:2,pointRadius:4.5}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:matchMedia('(prefers-reduced-motion: reduce)').matches?false:{duration:400},layout:{padding:{top:6,right:8}},
+      plugins:{legend:{display:false},filler:{propagate:false},tooltip:{filter:it=>!it.dataset.banda||it.dataset.label=='Tendencia',callbacks:{title:it=>nombre(Y[it[0].raw.x]),label:c=>c.dataset.label=='Tendencia'?'Tendencia: '+f(c.raw.y)+' %':c.dataset.label+': votó '+f(c.raw.y)+' %; voto afirmativo '+f(c.raw.a)+' %'}}},
+      scales:{x:{type:'linear',min:-.7,max:Y.length-.3,grid:{display:false},border:{color:C.line},afterBuildTicks:s=>{s.ticks=Y.map((_,i)=>({value:i}));},ticks:{color:C.mut,autoSkip:false,maxRotation:90,minRotation:90,callback:v=>Y[v]===undefined?'':Y[v],font:{size:11,family:'IBM Plex Sans'}}},
+        y:{min:55,max:95,grid:{color:C.line},border:{display:false},ticks:{color:C.mut,stepSize:5,callback:v=>v+' %',font:{size:11,family:'IBM Plex Sans'}}}}}});
+}
+if(window.Chart){Chart.defaults.font.family='"IBM Plex Sans",system-ui,sans-serif';dibujar();new MutationObserver(dibujar).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});matchMedia('(prefers-color-scheme: dark)').addEventListener('change',dibujar);}
+
+});
 </script>
 <script src="datos/comp.js"></script>
 <script src="datos/opciones.js"></script>

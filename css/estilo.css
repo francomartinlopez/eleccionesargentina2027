@@ -137,3 +137,30 @@ button[data-conf]::after{content:" ✓"}
 details.opc{margin:8px 0 0;border:1px solid var(--strong);border-radius:8px;padding:6px 10px;background:var(--bg)}
 details.opc summary{cursor:pointer;font-size:13px;color:var(--ink)}
 details.opc[open] summary{margin-bottom:4px}
+
+/* ICG mensual con capas y participación electoral */
+#icgcapas,#partbloque{--g1:#2a78d6;--g1o:#0c447c;--g2:#eb6834;--g1c:#85b7eb;--g2c:#f0997b;--corr:#b42318;--abs:#8a96a8;--bl:#c9a227;--nu:#7a4fa3;--tend:#3d4a5c;--banda:rgba(61,74,92,.13)}
+@media (prefers-color-scheme:dark){#icgcapas,#partbloque{--g1:#5b9bea;--g1o:#85b7eb;--g2:#f08a5d;--g1c:#4f86c6;--g2c:#c46a4a;--corr:#ff8f8f;--abs:#5d6b7d;--bl:#d9b440;--nu:#b68ee0;--tend:#c8d2de;--banda:rgba(200,210,222,.14)}}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:8px 0 4px;font-size:13px;color:var(--ink2)}
+.ctl[hidden],.ley[hidden],.tip[hidden]{display:none}
+.ctl button{font:inherit;font-size:13px;padding:7px 12px;min-height:36px;border:1px solid var(--strong);border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+.ctl button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.ley{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin:4px 0 0}
+.ley span{display:inline-flex;align-items:center;gap:6px}.ley span[hidden]{display:none}
+.sw{width:10px;height:10px;display:inline-block}
+.serie{position:relative}
+.serie .co{fill:none;stroke:var(--corr);stroke-width:1.8}
+.tip{position:absolute;pointer-events:none;background:var(--card);color:var(--ink);border:1px solid var(--strong);border-radius:8px;padding:7px 10px;font-size:12.5px;line-height:1.45;box-shadow:0 4px 14px rgba(0,0,0,.12);white-space:nowrap;z-index:2}
+.tip b{font-weight:600}.tip i{display:inline-block;width:9px;height:9px;margin-right:6px;border-radius:2px;vertical-align:-1px}
+.nota-g{font-size:13px;color:var(--ink2);margin:6px 0 0;max-width:75ch}
+.pgraf{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pgraf>div{position:relative;height:clamp(340px,52vw,460px);min-width:720px}
+.pgraf canvas{position:absolute;inset:0;width:100%;height:100%}
+.pista{font-size:12px;color:var(--muted);margin:4px 0 0}
+@media(min-width:760px){.pista{display:none}}
+.clave{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:14px 0 0}
+.clave div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.clave b{display:block;font-family:var(--serif);font-size:26px;line-height:1.1;font-weight:700}
+.clave small{font-size:13px;color:var(--ink2)}
+#partbloque td,#partbloque th{text-align:left}#partbloque .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#partbloque ol b{color:var(--ink);font-weight:600}#partbloque li{margin:0 0 5px}
